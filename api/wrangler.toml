@@ -2,8 +2,12 @@ name = "goalora-api"
 main = "worker.js"
 compatibility_date = "2026-08-27"
 
-# Bind a Cloudflare D1 database here when the backend is connected.
+# Create the D1 database first, then replace the placeholders below.
 # [[d1_databases]]
 # binding = "DB"
 # database_name = "goalora"
-# database_id = "<YOUR_DATABASE_ID>"
+# database_id = "YOUR_DATABASE_ID"
+
+# Set this Worker environment variable to the exact GitHub Pages origin,
+# for example: https://binjo-sys.github.io
+# FRONTEND_ORIGIN = "YOUR_GITHUB_PAGES_ORIGIN"
