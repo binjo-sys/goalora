@@ -62,7 +62,7 @@
         <label id="gateConfirmWrap" style="display:none">Confirm password<input name="confirm" type="password" minlength="8" placeholder="Repeat your password"></label>
         <button class="gate-btn" id="gateSubmit" type="submit">Sign in</button>
       </form>
-      <div class="gate-note">Your local account is stored securely enough for this prototype using a SHA-256 password hash. Cloud accounts can be connected later for multi-device sync.</div>
+      <div class="gate-note">Your local account is stored on this device using a SHA-256 password hash. Cloud accounts can be connected later for multi-device sync.</div>
     </div>`;
     document.body.appendChild(gate);
 
@@ -92,10 +92,10 @@
     });
   }
 
-  function openApp(){const g=document.getElementById('accountGate');if(g){g.classList.add('hidden');g.setAttribute('aria-hidden','true')}document.getElementById('appShell')?.classList.remove('auth-locked');updateProfile();}
+  function openApp(){const g=document.getElementById('accountGate');if(g){g.classList.add('hidden');g.setAttribute('aria-hidden','true')}const shell=document.getElementById('appShell');if(shell){shell.classList.remove('auth-locked');shell.style.visibility='visible';}updateProfile();if(window.render)window.render();}
   function enforceGate(){inject();if(session()){openApp();return}const shell=document.getElementById('appShell');if(shell){shell.classList.add('auth-locked');shell.style.visibility='hidden';}document.getElementById('accountGate').classList.remove('hidden')}
 
-  function open(){inject();renderAccount();document.getElementById('overlay')?.classList.add('open');document.getElementById('accountModal').classList.add('open');document.getElementById('accountModal').setAttribute('aria-hidden','false')}
+  function open(){inject();renderAccount();document.getElementById('overlay')?.classList.add('open');const m=document.getElementById('accountModal');if(m){m.classList.add('open');m.setAttribute('aria-hidden','false')}}
   function close(){const m=document.getElementById('accountModal');if(!m)return;document.getElementById('overlay')?.classList.remove('open');m.classList.remove('open');m.setAttribute('aria-hidden','true')}
   function renderAccount(){
     let modal=document.getElementById('accountModal');
@@ -108,7 +108,7 @@
   function updateProfile(){const s=session();const profile=document.getElementById('profileBtn');if(profile){const text=profile.querySelector('span:nth-child(2)');const avatar=profile.querySelector('.avatar');if(text)text.textContent=s?.user?.displayName||'Account';if(avatar)avatar.textContent=(s?.user?.displayName||'E').trim().charAt(0).toUpperCase()||'E';}const btn=document.getElementById('cloudAccountBtn');if(btn)btn.textContent=s?'Account · Signed in':'Account · Sign in'}
   function addSettingsCard(){const tryAdd=()=>{const grid=document.querySelector('.settings-grid');if(!grid||document.getElementById('cloudAccountSetting'))return;const card=document.createElement('div');card.className='setting';card.id='cloudAccountSetting';card.innerHTML=`<h3>Account & cloud sync</h3><p>Your Goalora account protects access to your workspace on this device.</p><div class="setting-actions"><button class="primary" id="cloudAccountBtn">Account · Sign in</button></div>`;grid.prepend(card);document.getElementById('cloudAccountBtn').addEventListener('click',open);updateProfile()};setTimeout(tryAdd,0)};
   const originalRender=window.render;if(originalRender)window.render=function(){if(session())originalRender();addSettingsCard();updateProfile()};
-  window.goaloraAccount={open,syncNow:async(silent=false)=>{try{const res=await request('/api/sync',{method:'POST',body:JSON.stringify({data:getData()||{}})});if(res.data){setData(res.data);if(window.render)window.render()}if(!silent)toast('Goalora synced')}catch(err){if(!silent)toast(err.message==='CLOUD_API_NOT_CONFIGURED'?'Connect the Goalora API first':'Sync failed')}},logout,refreshSession,apiBase,setApiUrl:(url)=>{try{localStorage.setItem(API_KEY,url.trim().replace(/\/$/,''))}catch{}updateProfile();toast('Cloud API URL saved')}};
+  window.goaloraAccount={open,logout,refreshSession,apiBase,setApiUrl:(url)=>{try{localStorage.setItem(API_KEY,url.trim().replace(/\/$/,''))}catch{}updateProfile();toast('Cloud API URL saved')},syncNow:async(silent=false)=>{try{const res=await request('/api/sync',{method:'POST',body:JSON.stringify({data:getData()||{}})});if(res.data){setData(res.data);if(window.render)window.render()}if(!silent)toast('Goalora synced')}catch(err){if(!silent)toast(err.message==='CLOUD_API_NOT_CONFIGURED'?'Connect the Goalora API first':'Sync failed')}}};
   window.addEventListener('load',()=>{enforceGate();refreshSession();addSettingsCard();updateProfile()});
   window.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.getElementById('accountModal')?.classList.contains('open'))close()});
 })();
