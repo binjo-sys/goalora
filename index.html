@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#635bff">
+  <meta name="description" content="Goalora — Plan. Focus. Achieve.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Goalora — Plan. Focus. Achieve.</title>
+</head>
+<body>
+  <div id="appShell" class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand"><div class="brand-mark">◎</div><div><strong>Goalora</strong><span>Plan. Focus. Achieve.</span></div></div>
+      <nav class="nav" aria-label="Main navigation">
+        <button class="nav-item active" data-view="dashboard"><span>⌂</span>Dashboard</button>
+        <button class="nav-item" data-view="goals"><span>◎</span>Goals</button>
+        <button class="nav-item" data-view="categories"><span>◈</span>Categories</button>
+        <button class="nav-item" data-view="notes"><span>▤</span>Notes</button>
+        <button class="nav-item" data-view="calendar"><span>▣</span>Calendar</button>
+        <button class="nav-item" data-view="progress"><span>◒</span>Progress</button>
+        <button class="nav-item" data-view="habits"><span>◌</span>Habits</button>
+        <button class="nav-item" data-view="reminders"><span>♧</span>Reminders</button>
+        <button class="nav-item" data-view="vision"><span>✦</span>Vision Board</button>
+        <button class="nav-item" data-view="settings"><span>⚙</span>Settings</button>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="mini-card"><span>Stay focused.</span><strong>One goal at a time.</strong><div class="mini-rocket">↗</div></div>
+        <button class="primary full" id="sidebarNewGoal">＋ New Goal</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="icon-btn mobile-only" id="menuBtn" aria-label="Open menu">☰</button>
+        <div class="search-wrap"><span>⌕</span><input id="globalSearch" type="search" placeholder="Search goals, categories, notes…" autocomplete="off"></div>
+        <div class="top-actions"><button class="icon-btn" id="installBtn" title="Install Goalora">⇩</button><button class="icon-btn" id="themeBtn" title="Toggle theme">☾</button><button class="icon-btn" id="notifyBtn" title="Notifications">♧</button><button class="profile" id="profileBtn"><span class="avatar">E</span><span>Emmanuel</span><span>⌄</span></button></div>
+      </header>
+
+      <section class="content" id="content"></section>
+    </main>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+  <section class="modal" id="goalModal" aria-hidden="true">
+    <div class="modal-head"><div><p class="eyebrow">Build momentum</p><h2 id="goalModalTitle">Create a goal</h2></div><button class="icon-btn" data-close="goalModal">×</button></div>
+    <form id="goalForm" class="form-grid">
+      <label>Goal name<input name="name" required maxlength="100" placeholder="e.g. Buy a comfortable bed"></label>
+      <label>Category<select name="category" id="goalCategory" required></select></label>
+      <label>Subcategory<input name="subcategory" maxlength="80" placeholder="e.g. Bedroom"></label>
+      <label>Priority<select name="priority"><option>High</option><option selected>Medium</option><option>Low</option></select></label>
+      <label>Status<select name="status"><option>Not Started</option><option selected>In Progress</option><option>Completed</option></select></label>
+      <label>Due date<input name="due" type="date"></label>
+      <label>Progress <span class="range-value" id="progressValue">0%</span><input name="progress" id="goalProgress" type="range" min="0" max="100" value="0"></label>
+      <label>Target amount (KSh)<input name="target" type="number" min="0" step="1" placeholder="Optional"></label>
+      <label>Saved / current amount (KSh)<input name="current" type="number" min="0" step="1" placeholder="Optional"></label>
+      <label class="wide">Description<textarea name="description" rows="3" placeholder="What does success look like?"></textarea></label>
+      <label class="wide">Checklist <textarea name="checklist" rows="4" placeholder="One item per line&#10;Compare prices&#10;Save money&#10;Buy the item"></textarea></label>
+      <div class="form-actions wide"><button type="button" class="secondary" data-close="goalModal">Cancel</button><button class="primary" type="submit">Save Goal</button></div>
+    </form>
+  </section>
+
+  <section class="modal" id="categoryModal" aria-hidden="true">
+    <div class="modal-head"><div><p class="eyebrow">Make it yours</p><h2>Create a category</h2></div><button class="icon-btn" data-close="categoryModal">×</button></div>
+    <form id="categoryForm" class="form-grid">
+      <label>Category name<input name="name" required maxlength="60" placeholder="e.g. Dream Car"></label>
+      <label>Icon<input name="icon" maxlength="3" placeholder="🚗"></label>
+      <label>Color<select name="color"><option value="purple">Purple</option><option value="blue">Blue</option><option value="green">Green</option><option value="orange">Orange</option><option value="pink">Pink</option></select></label>
+      <div class="form-actions wide"><button type="button" class="secondary" data-close="categoryModal">Cancel</button><button class="primary" type="submit">Create Category</button></div>
+    </form>
+  </section>
+
+  <section class="modal detail-modal" id="detailModal" aria-hidden="true"></section>
+  <div class="toast" id="toast" role="status"></div>
+  <input id="importFile" type="file" accept="application/json" hidden>
+
+  <script src="./app.js"></script>
+</body>
+</html>
