@@ -1,5 +1,5 @@
-const CACHE = 'goalora-v2';
-const ASSETS = ['./','./index.html','./styles.css','./app.js','./enhancements.js','./manifest.webmanifest','./icon.svg'];
+const CACHE = 'goalora-v3';
+const ASSETS = ['./','./index.html','./styles.css','./app.js','./enhancements.js','./navigation.js','./auth.js','./install.js','./manifest.webmanifest','./icon.svg'];
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)));
