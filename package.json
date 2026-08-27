@@ -3,13 +3,15 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "android:build": "npx cap sync android && cd android && ./gradlew assembleDebug"
+    "android:sync": "npx cap sync android",
+    "android:build": "npx cap sync android && cd android && ./gradlew assembleDebug",
+    "android:open": "npx cap open android"
   },
   "dependencies": {
-    "@capacitor/android": "^7.4.3",
-    "@capacitor/core": "^7.4.3"
+    "@capacitor/android": "^7.4.4",
+    "@capacitor/core": "^7.4.4"
   },
   "devDependencies": {
-    "@capacitor/cli": "^7.4.3"
+    "@capacitor/cli": "^7.4.4"
   }
 }
