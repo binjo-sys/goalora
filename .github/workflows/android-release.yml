@@ -30,7 +30,7 @@ jobs:
         run: |
           rm -rf www
           mkdir -p www
-          cp index.html styles.css app.js enhancements.js navigation.js auth.js install.js manifest.webmanifest icon.svg sw.js www/
+          cp index.html styles.css app.js enhancements.js navigation.js recovery.js auth.js install.js manifest.webmanifest icon.svg sw.js www/
 
       - name: Add Android platform
         run: npx cap add android
