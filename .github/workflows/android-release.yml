@@ -3,8 +3,9 @@ name: Build Goalora Android APK
 on:
   workflow_dispatch:
   push:
-    tags:
-      - 'v*'
+    branches: [main]
+    paths-ignore:
+      - 'android/**'
 
 permissions:
   contents: write
@@ -24,6 +25,13 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+
+      - name: Prepare web assets
+        shell: bash
+        run: |
+          rm -rf www
+          mkdir -p www
+          cp index.html styles.css app.js enhancements.js navigation.js auth.js install.js manifest.webmanifest icon.svg sw.js www/
 
       - name: Add Android platform
         run: npx cap add android
@@ -50,11 +58,14 @@ jobs:
           name: Goalora-Android
           path: Goalora.apk
 
-      - name: Publish GitHub release
-        if: startsWith(github.ref, 'refs/tags/v')
+      - name: Publish rolling Android release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "${GITHUB_REF_NAME}" Goalora.apk \
-            --title "Goalora ${GITHUB_REF_NAME}" \
-            --notes "Android APK for Goalora. Download Goalora.apk and install it on Android."
+          if gh release view android-latest >/dev/null 2>&1; then
+            gh release upload android-latest Goalora.apk --clobber
+          else
+            gh release create android-latest Goalora.apk \
+              --title "Goalora Android Latest" \
+              --notes "Latest Android APK for Goalora. Download Goalora.apk and install it on Android."
+          fi
