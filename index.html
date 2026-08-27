@@ -33,18 +33,15 @@
         <button class="primary full" id="sidebarNewGoal">＋ New Goal</button>
       </div>
     </aside>
-
     <main class="main">
       <header class="topbar">
         <button class="icon-btn mobile-only" id="menuBtn" aria-label="Open menu">☰</button>
         <div class="search-wrap"><span>⌕</span><input id="globalSearch" type="search" placeholder="Search goals, categories, notes…" autocomplete="off"></div>
-        <div class="top-actions"><button class="icon-btn" id="installBtn" title="Install Goalora">⇩</button><button class="icon-btn" id="themeBtn" title="Toggle theme">☾</button><button class="icon-btn" id="notifyBtn" title="Notifications">♧</button><button class="profile" id="profileBtn"><span class="avatar">E</span><span>Emmanuel</span><span>⌄</span></button></div>
+        <div class="top-actions"><button class="icon-btn" id="installBtn" title="Download Goalora">⇩</button><button class="icon-btn" id="themeBtn" title="Toggle theme">☾</button><button class="icon-btn" id="notifyBtn" title="Notifications">♧</button><button class="profile" id="profileBtn"><span class="avatar">G</span><span>Account</span><span>⌄</span></button></div>
       </header>
-
       <section class="content" id="content"></section>
     </main>
   </div>
-
   <div class="overlay" id="overlay"></div>
   <section class="modal" id="goalModal" aria-hidden="true">
     <div class="modal-head"><div><p class="eyebrow">Build momentum</p><h2 id="goalModalTitle">Create a goal</h2></div><button class="icon-btn" data-close="goalModal">×</button></div>
@@ -59,11 +56,10 @@
       <label>Target amount (KSh)<input name="target" type="number" min="0" step="1" placeholder="Optional"></label>
       <label>Saved / current amount (KSh)<input name="current" type="number" min="0" step="1" placeholder="Optional"></label>
       <label class="wide">Description<textarea name="description" rows="3" placeholder="What does success look like?"></textarea></label>
-      <label class="wide">Checklist <textarea name="checklist" rows="4" placeholder="One item per line&#10;Compare prices&#10;Save money&#10;Buy the item"></textarea></label>
+      <label class="wide">Checklist<textarea name="checklist" rows="4" placeholder="One item per line&#10;Compare prices&#10;Save money&#10;Buy the item"></textarea></label>
       <div class="form-actions wide"><button type="button" class="secondary" data-close="goalModal">Cancel</button><button class="primary" type="submit">Save Goal</button></div>
     </form>
   </section>
-
   <section class="modal" id="categoryModal" aria-hidden="true">
     <div class="modal-head"><div><p class="eyebrow">Make it yours</p><h2>Create a category</h2></div><button class="icon-btn" data-close="categoryModal">×</button></div>
     <form id="categoryForm" class="form-grid">
@@ -73,14 +69,13 @@
       <div class="form-actions wide"><button type="button" class="secondary" data-close="categoryModal">Cancel</button><button class="primary" type="submit">Create Category</button></div>
     </form>
   </section>
-
   <section class="modal detail-modal" id="detailModal" aria-hidden="true"></section>
   <div class="toast" id="toast" role="status"></div>
   <input id="importFile" type="file" accept="application/json" hidden>
-
   <script src="./app.js"></script>
   <script src="./enhancements.js"></script>
   <script src="./navigation.js"></script>
+  <script src="./recovery.js"></script>
   <script src="./auth.js"></script>
   <script src="./install.js"></script>
 </body>
