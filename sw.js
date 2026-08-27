@@ -1,4 +1,4 @@
-const CACHE = 'goalora-v3';
+const CACHE = 'goalora-v4';
 const ASSETS = ['./','./index.html','./styles.css','./app.js','./enhancements.js','./navigation.js','./auth.js','./install.js','./manifest.webmanifest','./icon.svg'];
 
 self.addEventListener('install', event => {
