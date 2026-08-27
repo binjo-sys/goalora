@@ -53,7 +53,7 @@
       <label>Category<select name="category" id="goalCategory" required></select></label>
       <label>Subcategory<input name="subcategory" maxlength="80" placeholder="e.g. Bedroom"></label>
       <label>Priority<select name="priority"><option>High</option><option selected>Medium</option><option>Low</option></select></label>
-      <label>Status<select name="status"><option>Not Started</option><option selected>In Progress</option><option>Completed</option></select></label>
+      <label>Status<select name="status"><option selected>Not Started</option><option>In Progress</option><option>Completed</option></select></label>
       <label>Due date<input name="due" type="date"></label>
       <label>Progress <span class="range-value" id="progressValue">0%</span><input name="progress" id="goalProgress" type="range" min="0" max="100" value="0"></label>
       <label>Target amount (KSh)<input name="target" type="number" min="0" step="1" placeholder="Optional"></label>
@@ -79,5 +79,6 @@
   <input id="importFile" type="file" accept="application/json" hidden>
 
   <script src="./app.js"></script>
+  <script src="./enhancements.js"></script>
 </body>
 </html>
