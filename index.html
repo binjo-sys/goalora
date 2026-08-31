@@ -46,14 +46,14 @@
   <section class="modal" id="goalModal" aria-hidden="true">
     <div class="modal-head"><div><p class="eyebrow">Build momentum</p><h2 id="goalModalTitle">Create a goal</h2></div><button class="icon-btn" data-close="goalModal">×</button></div>
     <form id="goalForm" class="form-grid">
-      <label>Goal name<input name="name" required maxlength="100" placeholder="e.g. Buy a comfortable bed"></label>
+      <label>Goal name<input name="name" required maxlength="100" placeholder="e.g. Buy 5 trousers"></label>
       <label>Category<select name="category" id="goalCategory" required></select></label>
-      <label>Subcategory<input name="subcategory" maxlength="80" placeholder="e.g. Bedroom"></label>
+      <label>Item / subcategory<select name="subcategory" id="goalSubcategory"><option value="">Choose an item / area</option></select></label>
       <label>Priority<select name="priority"><option>High</option><option selected>Medium</option><option>Low</option></select></label>
       <label>Status<select name="status"><option selected>Not Started</option><option>In Progress</option><option>Completed</option></select></label>
       <label>Due date<input name="due" type="date"></label>
       <label>Progress <span class="range-value" id="progressValue">0%</span><input name="progress" id="goalProgress" type="range" min="0" max="100" value="0"></label>
-      <label>Target amount (KSh)<input name="target" type="number" min="0" step="1" placeholder="Optional"></label>
+      <label>Target amount (KSh)<input name="target" type="number" min="0" step="1" placeholder="Optional for money goals"></label>
       <label>Saved / current amount (KSh)<input name="current" type="number" min="0" step="1" placeholder="Optional"></label>
       <label class="wide">Description<textarea name="description" rows="3" placeholder="What does success look like?"></textarea></label>
       <label class="wide">Checklist<textarea name="checklist" rows="4" placeholder="One item per line&#10;Compare prices&#10;Save money&#10;Buy the item"></textarea></label>
@@ -74,6 +74,7 @@
   <input id="importFile" type="file" accept="application/json" hidden>
   <script src="./app.js"></script>
   <script src="./enhancements.js"></script>
+  <script src="./goal-planner.js"></script>
   <script src="./navigation.js"></script>
   <script src="./recovery.js"></script>
   <script src="./auth.js"></script>
