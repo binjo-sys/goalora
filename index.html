@@ -6,9 +6,10 @@
 <link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="styles.css"><title>Novella — Read freely</title>
 </head>
 <body>
-<header class="topbar"><a class="brand" href="#home"><span class="logo">N</span><span>Novella</span></a><nav><button data-nav="home">Home</button><button data-nav="library">My Library</button><button data-nav="genres">Genres</button></nav><button id="themeBtn" class="iconbtn" aria-label="Toggle theme">☾</button></header>
+<header class="topbar"><a class="brand" href="#home"><span class="logo">N</span><span>Novella</span></a><nav><button data-nav="home">Home</button><button data-nav="library">My Library</button><button data-nav="genres">Genres</button></nav><div class="top-actions"><button id="profileBtn" class="profile-btn" aria-label="Open reader profile"><span class="avatar avatar-sm" id="headerAvatar">R</span><span class="profile-label">Profile</span></button><button id="themeBtn" class="iconbtn" aria-label="Toggle theme">☾</button></div></header>
 <main id="app"></main>
 <div id="detail" class="detail hidden"><div class="detail-card"><button id="closeDetail" class="detail-close" aria-label="Close">×</button><div id="detailContent"></div></div></div>
+<div id="profile" class="detail profile-modal hidden"><div class="detail-card profile-card"><button id="closeProfile" class="detail-close" aria-label="Close">×</button><div id="profileContent"></div></div></div>
 <div id="reader" class="reader hidden"><div class="readerbar"><button id="closeReader" class="iconbtn">←</button><div><strong id="readerTitle"></strong><small id="readerChapter"></small></div><div class="reader-actions"><button id="fontDown">A−</button><button id="fontUp">A+</button><button id="bookmarkBtn">♡</button></div></div><article id="readerText"></article><div class="chapterbar"><button id="prevChapter">← Previous</button><span id="progressLabel"></span><button id="nextChapter">Next →</button></div></div>
-<script src="app.js"></script><script>if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');</script>
+<script src="app.js"></script><script src="profile.js"></script><script>if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');</script>
 </body></html>
