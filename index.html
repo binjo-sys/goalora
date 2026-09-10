@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111827"><meta name="description" content="Read great public-domain novels in a beautiful mobile reader.">
+<link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="styles.css"><title>Novella — Read freely</title>
+</head>
+<body>
+<header class="topbar"><a class="brand" href="#home"><span class="logo">N</span><span>Novella</span></a><nav><button data-nav="home">Home</button><button data-nav="library">My Library</button><button data-nav="genres">Genres</button></nav><button id="themeBtn" class="iconbtn" aria-label="Toggle theme">☾</button></header>
+<main id="app"></main>
+<div id="reader" class="reader hidden"><div class="readerbar"><button id="closeReader" class="iconbtn">←</button><div><strong id="readerTitle"></strong><small id="readerChapter"></small></div><div class="reader-actions"><button id="fontDown">A−</button><button id="fontUp">A+</button><button id="bookmarkBtn">♡</button></div></div><article id="readerText"></article><div class="chapterbar"><button id="prevChapter">← Previous</button><span id="progressLabel"></span><button id="nextChapter">Next →</button></div></div>
+<script src="app.js"></script><script>if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');</script>
+</body></html>
