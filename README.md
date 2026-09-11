@@ -1,21 +1,29 @@
-# Novella
+# Kenya Trucker
 
-A mobile-first novel reading web app built for GitHub Pages.
+A mobile-friendly 3D lorry driving game built for GitHub Pages.
 
-## Library
-The first catalog contains public-domain classics and loads their full text from Project Gutenberg when a reader opens a book. This avoids redistributing copyrighted books without permission.
+## Current build
 
-## Features
-- Search by title, author and genre
-- Public-domain classic catalog
-- Full-screen reader
-- Chapter-style pagination
-- Reading progress
-- Saved library
-- Adjustable font size
-- Dark mode
-- Installable PWA/offline app shell
-- Responsive mobile design
+- Playable 3D Kenyan road scene
+- Heavy lorry with chase and cabin cameras
+- Nairobi → Nakuru long-haul route
+- Nairobi, Naivasha, Mau and Nakuru roadside scenery
+- Traffic vehicles, towns, hills, mountains, signs and fuel stations
+- Speed, fuel and damage systems
+- Cargo delivery mission and earnings
+- Local save / continue journey
+- PC keyboard controls
+- Mobile touch controls
+- PWA shell and GitHub Pages deployment
 
-## Add more books
-Add only books you have the legal right to distribute, or add metadata pointing to a lawful public-domain/open-license source.
+## Controls
+
+- W / ↑ — accelerate
+- S / ↓ — brake
+- A / ← — steer left
+- D / → — steer right
+- C — change camera
+- R — reset route position
+- Esc — pause
+
+The project uses Three.js from a public CDN for its 3D renderer. The game is designed to be expanded with more Kenyan routes, lorries, cargo types, weather, day/night cycles, AI traffic, garages and upgrades.
