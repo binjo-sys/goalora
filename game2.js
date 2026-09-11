@@ -11,7 +11,7 @@ const ROUTE=160000;
 const colors={road:0x25292b,grass:0x60794b,dirt:0x8b7558,red:0xc73832,cream:0xd7cdb6,green:0x315a3c,metal:0x303538,glass:0x14252b};
 function mat(c,r=.8,m=0){return new THREE.MeshStandardMaterial({color:c,roughness:r,metalness:m});}
 function box(w,h,d,c,x=0,y=0,z=0,r=.8){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat(c,r));m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;return m;}
-function cyl(r,h,c,x=0,y=0,z=0,rx=0){const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,18),mat(c));m.position.set(x,y,z);m.rotation.x=rx;m.castShadow=true;return m;}
+function cyl(r,h,c,x=0,y=0,z=0,rx=0){const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,24),mat(c,.65,.15));m.position.set(x,y,z);m.rotation.x=rx;m.castShadow=true;return m;}
 function label(text,scale=1){const cv=document.createElement('canvas');cv.width=512;cv.height=128;const x=cv.getContext('2d');x.fillStyle='rgba(8,14,17,.82)';x.roundRect(8,12,496,104,18);x.fill();x.fillStyle='#ffd36b';x.font='bold 42px Arial';x.textAlign='center';x.fillText(text,256,79);const s=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv),transparent:true}));s.scale.set(14*scale,3.5*scale,1);return s;}
 
 init();
@@ -46,20 +46,67 @@ function flags(){for(const z of [-80,-450,-900,-1260]){for(const x of [-14,14]){
 
 function buildTruck(){
  truck=new THREE.Group();truck.position.set(0,0,8);scene.add(truck);
- const chassis=box(3.5,.35,8,0x292c2d,0,1.05,-.2,.5);truck.add(chassis);
- const body=box(3.2,1.8,6.9,colors.red,0,1.8,.1,.55);truck.add(body);
- const cab=box(3.15,2.8,3.25,0xc83a33,0,3.55,1.9,.5);truck.add(cab);
- truck.add(box(2.7,1.05,.08,colors.glass,0,3.95,.23,.15));
- truck.add(box(.08,1.1,1.55,colors.glass,-1.59,3.85,1.65,.15));truck.add(box(.08,1.1,1.55,colors.glass,1.59,3.85,1.65,.15));
- truck.add(box(3.05,2.5,5.15,colors.cream,0,3.35,-2.35,.9));truck.add(box(3.18,.22,5.3,colors.green,0,4.62,-2.35));
- truck.add(box(3.55,.48,.6,0x34383a,0,.78,3.55,.35));
- truck.add(box(3.15,.25,.08,0xffd76b,0,1.8,3.57,.25));
- for(const x of [-1.72,1.72])for(const z of [-2.5,.55,2.55]){const w=cyl(.59,.44,0x151719,x,.7,z);w.rotation.z=Math.PI/2;truck.add(w);}
- truck.add(cyl(.14,3,0x303335,1.5,2.6,-2.6));
- // cabin interior details
- truck.add(cyl(.45,.08,0x202326,0,2.65,1.0,Math.PI/2));
- truck.add(cyl(.08,.5,0x17191a,0,2.55,1.0));
- const seat1=box(.85,1.2,.85,0x292525,-.7,2.35,1.0);const seat2=seat1.clone();seat2.position.x=.7;truck.add(seat1,seat2);
+ const red=0xc92f2f, dark=0x17191b, chrome=0xa9adb0, black=0x0b0d0f, glass=0x132b35;
+ const chassis=box(3.65,.38,9.2,dark,0,1.12,-.35,.35);truck.add(chassis);
+ // realistic long-haul tractor proportions
+ const lowerCab=box(3.35,1.55,2.9,red,0,2.05,2.35,.42);truck.add(lowerCab);
+ const upperCab=box(3.32,2.35,2.72,red,0,3.85,2.28,.45);truck.add(upperCab);
+ // sloped windshield and side windows
+ const windshield=box(2.72,1.0,.10,glass,0,4.35,.86,.08);windshield.rotation.x=-.10;truck.add(windshield);
+ for(const sx of [-1.66,1.66]){const side=box(.09,1.18,1.72,glass,sx,3.95,2.20,.08);side.rotation.z=sx<0?-.04:.04;truck.add(side);}
+ // window pillars and door seams
+ for(const sx of [-1.54,1.54])truck.add(box(.09,1.5,.12,red,sx,3.9,1.30,.12));
+ for(const sx of [-1.61,1.61])truck.add(box(.05,1.65,1.65,dark,sx,2.65,2.28,.2));
+ truck.add(box(2.9,.07,1.65,chrome,0,4.99,2.28,.3));
+ // front grille, bumper and lower fascia
+ truck.add(box(3.48,.55,.38,chrome,0,.88,3.85,.25));
+ truck.add(box(2.15,1.0,.10,0x262a2c,0,1.65,3.78,.12));
+ for(let x=-.78;x<=.78;x+=.39)truck.add(box(.07,.82,.13,chrome,x,1.65,3.84,.2));
+ // headlights and indicators
+ for(const x of [-1.15,1.15]){
+   const lamp=new THREE.Mesh(new THREE.BoxGeometry(.55,.32,.12),new THREE.MeshStandardMaterial({color:0xfff3c4,emissive:0xffe38a,emissiveIntensity:.45,roughness:.25,metalness:.15}));lamp.position.set(x,1.55,3.88);truck.add(lamp);
+   const indicator=new THREE.Mesh(new THREE.BoxGeometry(.28,.16,.10),new THREE.MeshStandardMaterial({color:0xff8c25,emissive:0xff6414,emissiveIntensity:.35}));indicator.position.set(x*1.25,1.35,3.89);truck.add(indicator);
+ }
+ // bonnet lip / Kenya-style red cab detailing
+ truck.add(box(3.1,.12,.30,chrome,0,2.65,3.78,.3));
+ truck.add(box(2.95,.08,2.0,0x9f2225,0,4.99,2.25,.5));
+ // fifth wheel and realistic box trailer
+ truck.add(box(2.45,.32,1.65,0x303438,0,1.55,-.15,.3));
+ const trailer=box(3.22,2.85,6.05,0xe3ded2,0,3.35,-3.35,.65);truck.add(trailer);
+ // trailer side panels
+ for(let z=-.8;z>=-5.8;z-=1)truck.add(box(3.27,.045,.035,0xb7b1a6,0,3.35,z,.4));
+ truck.add(box(3.28,.20,6.15,0x17663c,0,4.87,-3.35,.5));
+ truck.add(box(3.32,.12,.18,0x33373a,0,1.82,-6.42,.3));
+ // rear doors, hinges and reflective strips
+ truck.add(box(1.48,2.35,.08,0xd6d0c4,-.76,3.35,-6.42,.25));truck.add(box(1.48,2.35,.08,0xd6d0c4,.76,3.35,-6.42,.25));
+ for(const x of [-1.58,1.58])truck.add(box(.08,2.3,.12,chrome,x,3.35,-6.45,.2));
+ for(const x of [-1.15,1.15])truck.add(box(.62,.16,.08,0xffb51e,x,1.9,-6.48,.1));
+ // green tarp/roof strip and side mirrors
+ for(const sx of [-1,1]){
+   const arm=box(.10,.10,.75,dark,sx*1.92,4.25,1.62,.25);arm.rotation.x=.18;truck.add(arm);
+   const mirror=box(.30,.55,.16,black,sx*2.03,4.18,1.25,.15);truck.add(mirror);
+ }
+ // twin exhaust stacks with caps
+ for(const sx of [-1.32,1.32]){truck.add(cyl(.13,2.9,chrome,sx,3.0,-.55));truck.add(cyl(.17,.12,dark,sx,4.48,-.55));}
+ // fuel tanks and side steps
+ for(const sx of [-1.86,1.86]){truck.add(cyl(.38,2.25,chrome,sx,1.55,.15,Math.PI/2));truck.add(box(.38,.30,.95,dark,sx,1.05,1.55,.25));}
+ // wheels: realistic wide tyres, hubs, rims and mudguards
+ const wheelZ=[2.35,-.55,-2.05,-4.15,-5.65];
+ wheelZ.forEach((z,idx)=>[-1,1].forEach(sx=>{
+   const tire=new THREE.Mesh(new THREE.CylinderGeometry(idx<2?.68:.64,idx<2?.68:.64,.48,32),new THREE.MeshStandardMaterial({color:black,roughness:.9,metalness:.02}));
+   tire.rotation.z=Math.PI/2;tire.position.set(sx*1.83,.72,z);tire.castShadow=true;truck.add(tire);
+   const rim=new THREE.Mesh(new THREE.CylinderGeometry(.34,.34,.51,24),new THREE.MeshStandardMaterial({color:chrome,roughness:.3,metalness:.8}));rim.rotation.z=Math.PI/2;rim.position.set(sx*1.84,.72,z);truck.add(rim);
+   const hub=new THREE.Mesh(new THREE.CylinderGeometry(.12,.12,.54,18),new THREE.MeshStandardMaterial({color:0x555a5e,roughness:.25,metalness:.9}));hub.rotation.z=Math.PI/2;hub.position.set(sx*1.85,.72,z);truck.add(hub);
+ }));
+ // mudguards above rear axles
+ for(const z of [-.55,-2.05,-4.15,-5.65])for(const sx of [-1,1])truck.add(box(.28,.22,1.55,dark,sx*1.86,1.30,z,.4));
+ // cab interior visible through glass
+ truck.add(box(1.9,.35,.45,dark,0,2.55,1.45,.25));
+ const steering=new THREE.Mesh(new THREE.TorusGeometry(.34,.055,12,24),new THREE.MeshStandardMaterial({color:dark,roughness:.55}));steering.position.set(-.72,2.85,1.55);steering.rotation.x=Math.PI/2;truck.add(steering);
+ truck.add(box(.72,1.15,.72,0x252525,-.72,2.35,1.45,.55));
+ truck.add(box(.72,1.15,.72,0x252525,.72,2.35,1.45,.55));
+ // running lights
+ for(let x=-1.3;x<=1.3;x+=.65){const l=new THREE.Mesh(new THREE.BoxGeometry(.18,.09,.08),new THREE.MeshStandardMaterial({color:0xffd77a,emissive:0xffa21a,emissiveIntensity:.3}));l.position.set(x,2.95,3.90);truck.add(l);}
 }
 function vehicle(big=false){const g=new THREE.Group();const cs=[0xe8e7df,0x293b48,0x9b312b,0xd0a448,0x3c5b4b];const c=cs[Math.floor(Math.random()*cs.length)];g.add(box(big?2.8:2.2,big?1.7:1.25,big?5.8:4.2,c,0,big?1.45:1.05,0,.6));g.add(box(big?2.5:2,big?1.15:.8,1.7,colors.glass,0,big?2.45:1.8,.65,.15));for(const x of [-1,1])for(const z of [-1.35,1.35]){const w=cyl(.38,.3,0x111315,x*(big?1.3:1.05),.55,z);w.rotation.z=Math.PI/2;g.add(w);}g.userData.speed=12+Math.random()*20;g.userData.dir=Math.random()>.5?1:-1;return g;}
 function buildTraffic(){for(let i=0;i<16;i++){const v=vehicle(i%4===0);v.position.set(i%2?4.4:-4.4,0,-80-i*120-Math.random()*180);traffic.push(v);scene.add(v);}}
@@ -80,6 +127,7 @@ function bind(){
  window.addEventListener('keydown',e=>{keys[e.key]=true;if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();if(e.key.toLowerCase()==='c'){cameraMode=(cameraMode+1)%2;toast(cameraMode?'Cabin view':'Chase view');}if(e.key.toLowerCase()==='n'&&running)toggleNight();if(e.key==='Escape'&&running){paused=!paused;$('pause').classList.toggle('hidden',!paused);}});window.addEventListener('keyup',e=>keys[e.key]=false);
  document.querySelectorAll('[data-control]').forEach(b=>{const k={left:'ArrowLeft',right:'ArrowRight',accelerate:'ArrowUp',brake:'ArrowDown'}[b.dataset.control];const on=e=>{e.preventDefault();keys[k]=true};const off=e=>{e.preventDefault();keys[k]=false};b.addEventListener('pointerdown',on);b.addEventListener('pointerup',off);b.addEventListener('pointercancel',off);b.addEventListener('pointerleave',off);});
  const nightBtn=document.createElement('button');nightBtn.className='hud-button';nightBtn.textContent='☾';nightBtn.title='Toggle day/night';nightBtn.onclick=toggleNight;$('pauseBtn').before(nightBtn);
+ const camBtn=$('touchCamera');if(camBtn)camBtn.onclick=()=>{cameraMode=(cameraMode+1)%2;toast(cameraMode?'Cabin view':'Chase view');};
 }
 function loop(){const dt=Math.min(clock.getDelta(),.04);if(running&&!paused){drive(dt);hud();}cam(dt);renderer.render(scene,camera);}
 function resize(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);if(running)touch();}
