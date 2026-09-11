@@ -1,1 +1,10 @@
-{"name":"Novella — Read Freely","short_name":"Novella","start_url":"./","display":"standalone","background_color":"#f7f5f0","theme_color":"#111827","description":"A beautiful reader for public-domain classics.","icons":[]}
+{
+  "name":"Kenya Trucker",
+  "short_name":"Kenya Trucker",
+  "start_url":"./",
+  "display":"fullscreen",
+  "background_color":"#0b1015",
+  "theme_color":"#0b1015",
+  "description":"A Kenyan long-haul lorry driving game.",
+  "icons":[]
+}
