@@ -1,0 +1,115 @@
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js';
+
+const originalSceneAdd = THREE.Scene.prototype.add;
+let installed = false;
+
+function material(color, roughness=.55, metalness=0){
+  return new THREE.MeshStandardMaterial({color, roughness, metalness});
+}
+function mesh(geometry, material, position=[0,0,0], rotation=[0,0,0]){
+  const m = new THREE.Mesh(geometry, material);
+  m.position.set(...position); m.rotation.set(...rotation);
+  m.castShadow = true; m.receiveShadow = true;
+  return m;
+}
+function box(w,h,d,mat,pos=[0,0,0]){return mesh(new THREE.BoxGeometry(w,h,d),mat,pos);}
+function wheel(x,z,scale=1){
+  const g=new THREE.Group();
+  const tire=mesh(new THREE.CylinderGeometry(.55*scale,.55*scale,.38*scale,32),material(0x111214,.92),[x,.72,z],[0,0,Math.PI/2]);
+  const hub=mesh(new THREE.CylinderGeometry(.22*scale,.22*scale,.41*scale,24),material(0x85898b,.25,.85),[x,.72,z],[0,0,Math.PI/2]);
+  const cap=mesh(new THREE.CylinderGeometry(.09*scale,.09*scale,.43*scale,20),material(0x303437,.2,.9),[x,.72,z],[0,0,Math.PI/2]);
+  g.add(tire,hub,cap); return g;
+}
+function glass(w,h,d,pos){return box(w,h,d,material(0x10252d,.12,.3),pos);}
+function buildRealTruck(root){
+  root.clear();
+  const red=material(0xb51f24,.32,.35), darkRed=material(0x641317,.35,.25), black=material(0x171a1d,.75,.35);
+  const chrome=material(0xaeb5b8,.2,.9), silver=material(0x697177,.25,.8), white=material(0xe8e4d9,.48,.05);
+  const amber=material(0xffa51d,.22,.15), lamp=material(0xffe8b0,.12,.25); lamp.emissive=new THREE.Color(0xffb52b); lamp.emissiveIntensity=1.5;
+  const tail=material(0xc81616,.2,.15); tail.emissive=new THREE.Color(0x7a0000); tail.emissiveIntensity=.8;
+
+  // Heavy-duty chassis and fuel tank
+  root.add(box(3.45,.38,8.7,black,[0,1.05,-.15]));
+  root.add(box(3.05,.48,2.5,silver,[-1.75,1.0,.95]));
+  root.add(box(3.05,.48,2.5,silver,[1.75,1.0,.95]));
+  root.add(box(.55,.72,2.35,chrome,[-2.02,1.22,.35]));
+  root.add(box(.55,.72,2.35,chrome,[2.02,1.22,.35]));
+
+  // Tractor cab silhouette with sloping hood/front
+  const shape=new THREE.Shape();
+  shape.moveTo(-1.55,0); shape.lineTo(1.55,0); shape.lineTo(1.55,2.75); shape.lineTo(1.28,3.45); shape.lineTo(.95,4.25); shape.lineTo(-.95,4.25); shape.lineTo(-1.28,3.45); shape.lineTo(-1.55,2.75); shape.closePath();
+  const cabGeo=new THREE.ExtrudeGeometry(shape,{depth:3.35,bevelEnabled:true,bevelSegments:2,bevelSize:.08,bevelThickness:.08}); cabGeo.center();
+  const cab=mesh(cabGeo,red,[0,1.25,2.35]); root.add(cab);
+  root.add(box(2.7,.12,3.05,darkRed,[0,4.92,2.35]));
+
+  // Windshield split into two panes
+  root.add(glass(1.22,1.15,.07,[-.67,4.02,.64+2.35]));
+  root.add(glass(1.22,1.15,.07,[.67,4.02,.64+2.35]));
+  root.add(box(.10,1.2,.1,black,[0,4.02,3.0]));
+  root.add(glass(.08,1.15,1.35,[-1.61,3.65,2.35]));
+  root.add(glass(.08,1.15,1.35,[1.61,3.65,2.35]));
+
+  // Hood, grille, bumper and realistic front face
+  root.add(box(2.85,.62,.8,red,[0,2.05,4.08]));
+  root.add(box(2.35,.78,.12,black,[0,2.35,4.49]));
+  for(let i=-4;i<=4;i++) root.add(box(.055,.58,.06,chrome,[i*.27,2.35,4.57]));
+  root.add(box(3.35,.38,.52,chrome,[0,1.48,4.55]));
+  root.add(box(3.6,.18,.22,black,[0,1.27,4.72]));
+  root.add(box(.65,.32,.09,lamp,[-1.12,2.48,4.61]));
+  root.add(box(.65,.32,.09,lamp,[1.12,2.48,4.61]));
+  root.add(box(.25,.23,.09,amber,[-1.48,2.15,4.6])); root.add(box(.25,.23,.09,amber,[1.48,2.15,4.6]));
+
+  // Mirrors and roof details
+  for(const s of [-1,1]){
+    root.add(box(.12,.12,.85,black,[s*1.78,3.82,3.15]));
+    root.add(box(.22,.48,.12,chrome,[s*1.88,3.98,3.15]));
+    root.add(box(.16,.16,.65,black,[s*1.75,5.02,2.25]));
+    root.add(box(.18,.18,.18,amber,[s*1.82,5.16,2.25]));
+  }
+  root.add(box(.12,.75,.12,black,[1.25,5.35,1.15]));
+  root.add(new THREE.Mesh(new THREE.CylinderGeometry(.11,.11,.85,12),material(0x25282a,.45,.65)));
+
+  // Exhaust stack
+  root.add(mesh(new THREE.CylinderGeometry(.15,.18,3.25,20),chrome,[1.55,3.0,-1.05]));
+  root.add(mesh(new THREE.CylinderGeometry(.2,.16,.18,20),black,[1.55,4.67,-1.05]));
+
+  // Semi trailer with panel seams and tarp roof
+  root.add(box(3.18,2.95,7.3,white,[0,3.05,-2.7]));
+  root.add(box(3.24,.18,7.35,material(0x244f34,.48,.05),[0,4.61,-2.7]));
+  root.add(box(3.3,.22,7.45,chrome,[0,1.63,-2.7]));
+  for(let z=-5.85;z<.5;z+=1.15){root.add(box(.035,2.7,.035,silver,[-1.61,3.05,z]));root.add(box(.035,2.7,.035,silver,[1.61,3.05,z]));}
+  for(let z=-5.8;z<.6;z+=1.15){root.add(box(3.05,.07,.06,chrome,[0,2.0,z]));root.add(box(3.05,.07,.06,chrome,[0,4.05,z]));}
+  root.add(box(3.0,2.55,.10,white,[0,3.05,-6.37]));
+  root.add(box(1.45,2.25,.08,chrome,[-.75,3.05,-6.44])); root.add(box(1.45,2.25,.08,chrome,[.75,3.05,-6.44]));
+  for(const s of [-1,1]){root.add(box(.16,2.35,.11,black,[s*1.48,3.05,-6.48]));root.add(box(.22,.28,.1,tail,[s*1.3,1.9,-6.55]));}
+
+  // Trailer landing legs / fifth wheel
+  root.add(box(.18,1.55,.18,silver,[-1.0,1.0,-5.45]));root.add(box(.18,1.55,.18,silver,[1.0,1.0,-5.45]));
+  root.add(box(1.45,.16,1.0,black,[0,1.33,-.35]));
+
+  // Six tractor wheels + four trailer wheels
+  [-2.55,-.25,2.0].forEach(z=>{root.add(wheel(-1.78,z));root.add(wheel(1.78,z));});
+  [-4.15,-2.9].forEach(z=>{root.add(wheel(-1.72,z,.95));root.add(wheel(1.72,z,.95));});
+  // mudguards
+  for(const x of [-1.78,1.78]) for(const z of [-4.15,-2.9]) root.add(mesh(new THREE.TorusGeometry(.62,.09,8,24,Math.PI),black,[x,.86,z],[Math.PI/2,0,0]));
+
+  // Side steps and door handles
+  for(const s of [-1,1]){root.add(box(.55,.16,.9,black,[s*1.72,1.38,1.65]));root.add(box(.55,.16,.65,black,[s*1.72,1.65,2.05]));root.add(box(.06,.08,.35,chrome,[s*1.62,3.05,2.55]));}
+
+  root.userData.realisticTruck=true;
+}
+
+THREE.Scene.prototype.add=function(...objects){
+  const result=originalSceneAdd.apply(this,objects);
+  if(!installed){
+    for(const obj of objects){
+      if(obj && obj.isGroup && obj.position && Math.abs(obj.position.z-8)<.01 && Math.abs(obj.position.x)<.01 && obj.children.length>=8){
+        installed=true;
+        buildRealTruck(obj);
+        obj.scale.setScalar(1.02);
+        break;
+      }
+    }
+  }
+  return result;
+};
