@@ -1,17 +1,59 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#111827"><meta name="description" content="Novella — discover and read great novels in a beautiful reader.">
-<link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="styles.css"><title>Novella — Read freely</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1015">
+  <meta name="description" content="Kenya Trucker — drive heavy lorries across Kenya.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+  <title>Kenya Trucker</title>
 </head>
 <body>
-<header class="topbar"><a class="brand" href="#home"><span class="logo">N</span><span>Novella</span></a><nav><button data-nav="home">Home</button><button data-nav="library">My Library</button><button data-nav="genres">Genres</button><button id="communityBtn">Community</button></nav><div class="top-actions"><button id="studioBtn" class="studio-nav" aria-label="Open Author Studio">Write</button><button id="profileBtn" class="profile-btn" aria-label="Open reader profile"><span class="avatar avatar-sm" id="headerAvatar">R</span><span class="profile-label">Profile</span></button><button id="themeBtn" class="iconbtn" aria-label="Toggle theme">☾</button></div></header>
-<main id="app"></main>
-<div id="detail" class="detail hidden"><div class="detail-card"><button id="closeDetail" class="detail-close" aria-label="Close">×</button><div id="detailContent"></div></div></div>
-<div id="profile" class="detail profile-modal hidden"><div class="detail-card profile-card"><button id="closeProfile" class="detail-close" aria-label="Close">×</button><div id="profileContent"></div></div></div>
-<div id="studio" class="detail studio-modal hidden"><div class="detail-card studio-card"><button id="closeStudio" class="detail-close" aria-label="Close">×</button><div id="studioContent"></div></div></div>
-<div id="community" class="detail community-modal hidden"><div class="detail-card"><button id="closeCommunity" class="detail-close" aria-label="Close">×</button><div id="communityContent"></div></div></div>
-<div id="reader" class="reader hidden"><div class="readerbar"><button id="closeReader" class="iconbtn">←</button><div><strong id="readerTitle"></strong><small id="readerChapter"></small></div><div class="reader-actions"><button id="fontDown">A−</button><button id="fontUp">A+</button><button id="bookmarkBtn">♡</button></div></div><article id="readerText"></article><div class="chapterbar"><button id="prevChapter">← Previous</button><span id="progressLabel"></span><button id="nextChapter">Next →</button></div></div>
-<script src="app.js"></script><script src="profile.js"></script><script src="author.js"></script><script src="social.js"></script><script src="community.js"></script><script>if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');</script>
-</body></html>
+  <div id="loading" class="loading"><div class="spinner"></div><strong>KENYA TRUCKER</strong><span>Loading the road...</span></div>
+  <div id="menu" class="menu">
+    <div class="brand"><div class="brand-mark">KT</div><div><b>KENYA TRUCKER</b><small>DRIVE. DELIVER. CONQUER.</small></div></div>
+    <div class="menu-card">
+      <div class="eyebrow">LONG-HAUL SIMULATOR</div>
+      <h1>Take the wheel.</h1>
+      <p>Haul cargo across Kenya, manage fuel and damage, earn money and upgrade your lorry.</p>
+      <button id="startBtn" class="primary">START DRIVING</button>
+      <button id="continueBtn" class="secondary">CONTINUE JOURNEY</button>
+      <div class="route-preview"><span>NAIROBI</span><i>→</i><span>NAKURU</span><em>FIRST ROUTE</em></div>
+    </div>
+    <div class="tips">PC: <b>WASD / arrows</b> to drive · <b>C</b> camera · <b>R</b> reset · Mobile: use touch controls</div>
+  </div>
+
+  <div id="hud" class="hud hidden">
+    <div class="hud-top">
+      <div class="hud-brand"><span>KT</span><b>KENYA TRUCKER</b></div>
+      <div class="route-box"><small>ROUTE</small><strong id="routeName">Nairobi → Nakuru</strong><span id="routeDistance">0 km / 160 km</span></div>
+      <div class="money"><small>BALANCE</small><strong id="money">KSh 0</strong></div>
+      <button id="pauseBtn" class="hud-button">Ⅱ</button>
+    </div>
+    <div class="hud-bottom">
+      <div class="vehicle-stats">
+        <div><small>SPEED</small><strong><span id="speed">0</span> km/h</strong></div>
+        <div><small>FUEL</small><strong><span id="fuel">100</span>%</strong><div class="bar"><i id="fuelBar"></i></div></div>
+        <div><small>DAMAGE</small><strong><span id="damage">0</span>%</strong><div class="bar danger"><i id="damageBar"></i></div></div>
+      </div>
+      <div class="mission"><small>CARGO</small><strong id="cargo">Tea & packaged goods</strong><span id="missionText">Deliver the cargo safely.</span></div>
+    </div>
+    <div id="minimap" class="minimap"><div class="map-road"></div><div id="mapTruck" class="map-truck"></div><div class="map-label n">N</div><div class="map-label k">K</div></div>
+    <div id="toast" class="toast"></div>
+  </div>
+
+  <div id="pause" class="pause hidden"><div class="pause-card"><div class="eyebrow">PAUSED</div><h2>Roadside break</h2><button id="resumeBtn" class="primary">RESUME</button><button id="restartBtn" class="secondary">RESTART ROUTE</button><button id="menuBtn" class="secondary">MAIN MENU</button></div></div>
+
+  <div id="complete" class="complete hidden"><div class="complete-card"><div class="success">✓</div><div class="eyebrow">DELIVERY COMPLETE</div><h2 id="completeTitle">Nakuru reached</h2><p id="completeSummary">Cargo delivered safely.</p><div class="earnings"><span>PAYMENT</span><strong id="earned">+ KSh 8,500</strong></div><button id="nextRouteBtn" class="primary">NEXT ROUTE</button></div></div>
+
+  <div id="touch" class="touch hidden">
+    <div class="touch-left"><button data-control="left">‹</button><button data-control="right">›</button></div>
+    <div class="touch-right"><button data-control="brake">BRAKE</button><button data-control="accelerate">GAS</button></div>
+    <button id="touchCamera" class="touch-camera">CAM</button>
+  </div>
+
+  <script type="module" src="game.js"></script>
+  <script>if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');</script>
+</body>
+</html>
