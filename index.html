@@ -7,12 +7,13 @@
 <meta name="description" content="Goalora Interactive Movie — a cinematic story where your choices change what happens next.">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="cinema.css">
 <title>Goalora — Interactive Movie</title>
 </head>
 <body>
 <div id="app"><div id="cinema" class="cinema">
 <div class="film-grain"></div><div class="vignette"></div>
-<div id="scene" class="scene scene-1">
+<div id="scene" class="scene scene-1 camera-wide">
   <div class="sky"></div><div class="moon"></div><div class="cloud cloud-a"></div><div class="cloud cloud-b"></div>
   <div class="city"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
   <div class="street"><span class="lane lane-a"></span><span class="lane lane-b"></span></div>
@@ -22,7 +23,7 @@
   <div class="car car-back"><span class="window"></span><i></i><i></i></div>
   <div class="car car-front"><span class="window"></span><i></i><i></i></div>
   <div id="hero" class="hero"><div class="head"></div><div class="body"></div><div class="arm arm-a"></div><div class="arm arm-b"></div><div class="leg leg-a"></div><div class="leg leg-b"></div></div>
-  <div class="phone-glow"></div><div class="rain"></div>
+  <div id="phoneGlow" class="phone-glow"></div><div class="rain"></div>
 </div>
 <header class="topbar"><div class="logo"><span>G</span><div><b>GOALORA</b><small>INTERACTIVE MOVIE</small></div></div><div class="chapter" id="chapter">CHAPTER 01 · THE MESSAGE</div><button id="soundBtn" class="icon-btn">🔊</button></header>
 <div class="progress"><i id="progressBar"></i></div>
