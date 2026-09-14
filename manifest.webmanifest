@@ -1,10 +1,10 @@
 {
-  "name":"Kenya Trucker",
-  "short_name":"Kenya Trucker",
+  "name":"Goalora — Interactive Movie",
+  "short_name":"Goalora Movie",
   "start_url":"./",
   "display":"fullscreen",
-  "background_color":"#0b1015",
-  "theme_color":"#0b1015",
-  "description":"A Kenyan long-haul lorry driving game.",
+  "background_color":"#05060a",
+  "theme_color":"#05060a",
+  "description":"A cinematic interactive movie where your choices change the story.",
   "icons":[]
 }
