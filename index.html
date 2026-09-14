@@ -6,8 +6,9 @@
 <meta name="theme-color" content="#05060a">
 <meta name="description" content="Goalora Interactive Movie — a cinematic story where your choices change what happens next.">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="stylesheet" href="styles.css?v=3">
-<link rel="stylesheet" href="cinema.css?v=3">
+<link rel="stylesheet" href="styles.css?v=4">
+<link rel="stylesheet" href="cinema.css?v=4">
+<link rel="stylesheet" href="cinema-overrides.css?v=1">
 <title>Goalora — Interactive Movie</title>
 </head>
 <body>
@@ -34,5 +35,5 @@
 <div id="pause" class="overlay hidden"><div class="pause-card"><div class="eyebrow">THE MOVIE IS PAUSED</div><h2>Stay in the story.</h2><button id="resumeBtn" class="cinema-btn">RESUME</button><button id="restartBtn" class="ghost-btn">RESTART MOVIE</button></div></div>
 <button id="pauseBtn" class="pause-btn">Ⅱ</button>
 </div></div>
-<script src="movie.js?v=3"></script><script>if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js?v=3').then(r=>r.update());</script>
+<script src="movie.js?v=4"></script><script src="sound.js?v=1"></script><script>if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js?v=4').then(r=>r.update());</script>
 </body></html>
