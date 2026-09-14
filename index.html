@@ -6,8 +6,8 @@
 <meta name="theme-color" content="#05060a">
 <meta name="description" content="Goalora Interactive Movie — a cinematic story where your choices change what happens next.">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="cinema.css">
+<link rel="stylesheet" href="styles.css?v=3">
+<link rel="stylesheet" href="cinema.css?v=3">
 <title>Goalora — Interactive Movie</title>
 </head>
 <body>
@@ -24,14 +24,15 @@
   <div class="car car-front"><span class="window"></span><i></i><i></i></div>
   <div id="hero" class="hero"><div class="head"></div><div class="body"></div><div class="arm arm-a"></div><div class="arm arm-b"></div><div class="leg leg-a"></div><div class="leg leg-b"></div></div>
   <div id="phoneGlow" class="phone-glow"></div><div class="rain"></div>
+  <div class="cinema-bars cinema-bars-top"></div><div class="cinema-bars cinema-bars-bottom"></div>
 </div>
-<header class="topbar"><div class="logo"><span>G</span><div><b>GOALORA</b><small>INTERACTIVE MOVIE</small></div></div><div class="chapter" id="chapter">CHAPTER 01 · THE MESSAGE</div><button id="soundBtn" class="icon-btn">🔊</button></header>
+<header class="topbar"><div class="logo"><span>G</span><div><b>GOALORA</b><small>INTERACTIVE MOVIE</small></div></div><div class="chapter" id="chapter">CHAPTER 01 · THE MESSAGE</div><button id="soundBtn" class="icon-btn" aria-label="Toggle sound">🔊</button></header>
 <div class="progress"><i id="progressBar"></i></div>
-<main class="movie-ui"><div id="opening" class="opening"><div class="eyebrow">A GOALORA ORIGINAL</div><h1>THE LAST<br><em>MESSAGE</em></h1><p class="tagline">One night. One decision. A life that can change forever.</p><button id="startBtn" class="cinema-btn">▶ START MOVIE</button><p class="hint">Your choices change the story.</p></div>
+<main class="movie-ui"><div id="opening" class="opening"><div class="eyebrow">A GOALORA ORIGINAL</div><h1>THE LAST<br><em>MESSAGE</em></h1><p class="tagline">One night. One decision. A life that can change forever.</p><button id="startBtn" class="cinema-btn">▶ START MOVIE</button><p class="hint">Sound and cinematic effects begin when you start.</p></div>
 <div id="dialogue" class="dialogue hidden"><div class="speaker" id="speaker">JAY</div><p id="dialogueText"></p><div id="choices" class="choices"></div><button id="continueBtn" class="continue hidden">CONTINUE <span>→</span></button></div></main>
 <div id="flash" class="flash"></div><div id="toast" class="toast"></div>
 <div id="pause" class="overlay hidden"><div class="pause-card"><div class="eyebrow">THE MOVIE IS PAUSED</div><h2>Stay in the story.</h2><button id="resumeBtn" class="cinema-btn">RESUME</button><button id="restartBtn" class="ghost-btn">RESTART MOVIE</button></div></div>
 <button id="pauseBtn" class="pause-btn">Ⅱ</button>
 </div></div>
-<script src="movie.js"></script><script>if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');</script>
+<script src="movie.js?v=3"></script><script>if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js?v=3').then(r=>r.update());</script>
 </body></html>
