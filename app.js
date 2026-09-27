@@ -83,3 +83,13 @@ $('#editProfileBtn')?.addEventListener('click',()=>{const current=profileName?.t
 
 function updateSnapScore(){const score=Object.values(chatData||{}).reduce((n,a)=>n+a.filter(x=>x.from==='me').length,0);const el=$('#snapScore');if(el)el.textContent=score}
 updateSnapScore();
+
+/* NEXA CAMERA EXPERIENCE */
+let cameraLens='none',cameraFlash=false;
+const lensStrip=$('#lensStrip'),cameraPreview=$('#cameraPreview');
+function applyCameraLens(){if(!cameraPreview)return;const map={none:'none',mono:'grayscale(1) contrast(1.08)',warm:'sepia(.18) saturate(1.15) contrast(1.04)',cool:'hue-rotate(18deg) saturate(.92)',vivid:'saturate(1.45) contrast(1.08)'};cameraPreview.style.filter=map[cameraLens]||'none'}
+$('#cameraLens')?.addEventListener('click',()=>{lensStrip?.classList.toggle('open')});
+lensStrip?.querySelectorAll('[data-lens]').forEach(b=>b.addEventListener('click',()=>{cameraLens=b.dataset.lens;lensStrip.querySelectorAll('button').forEach(x=>x.classList.remove('active'));b.classList.add('active');applyCameraLens();lensStrip.classList.remove('open');toast(b.textContent+' lens')}));
+$('#cameraFlash')?.addEventListener('click',()=>{cameraFlash=!cameraFlash;$('#cameraFlash').classList.toggle('active',cameraFlash);toast(cameraFlash?'Flash enabled':'Flash off')});
+const oldShutter=$('#cameraShutter');
+oldShutter?.addEventListener('click',async()=>{if(!cameraPreview?.srcObject)return;const track=cameraPreview.srcObject.getVideoTracks()[0];const settings=track?.getSettings?.()||{};const w=settings.width||1280,h=settings.height||720;const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');if(cameraFlash){document.body.classList.add('camera-flash');setTimeout(()=>document.body.classList.remove('camera-flash'),100)}x.translate(c.width,0);x.scale(-1,1);x.filter=getComputedStyle(cameraPreview).filter;x.drawImage(cameraPreview,0,0,c.width,c.height);c.toBlob(blob=>{if(!blob)return;loadPhoto(new File([blob],'nexa-snap.jpg',{type:'image/jpeg'}));closeCamera();setView('editor');toast('Snap captured')},'image/jpeg',.94)});
