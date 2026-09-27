@@ -93,3 +93,17 @@ lensStrip?.querySelectorAll('[data-lens]').forEach(b=>b.addEventListener('click'
 $('#cameraFlash')?.addEventListener('click',()=>{cameraFlash=!cameraFlash;$('#cameraFlash').classList.toggle('active',cameraFlash);toast(cameraFlash?'Flash enabled':'Flash off')});
 const oldShutter=$('#cameraShutter');
 oldShutter?.addEventListener('click',async()=>{if(!cameraPreview?.srcObject)return;const track=cameraPreview.srcObject.getVideoTracks()[0];const settings=track?.getSettings?.()||{};const w=settings.width||1280,h=settings.height||720;const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');if(cameraFlash){document.body.classList.add('camera-flash');setTimeout(()=>document.body.classList.remove('camera-flash'),100)}x.translate(c.width,0);x.scale(-1,1);x.filter=getComputedStyle(cameraPreview).filter;x.drawImage(cameraPreview,0,0,c.width,c.height);c.toBlob(blob=>{if(!blob)return;loadPhoto(new File([blob],'nexa-snap.jpg',{type:'image/jpeg'}));closeCamera();setView('editor');toast('Snap captured')},'image/jpeg',.94)});
+
+/* NEXA SNAP COMPOSER */
+let snapBlobUrl=null,snapDuration=3;
+function openSnapComposer(file){const modal=$('#snapComposer'),img=$('#snapImage');if(!modal||!img)return;snapBlobUrl=URL.createObjectURL(file);img.src=snapBlobUrl;$('#snapCaption').value='';modal.classList.remove('hidden')}
+function closeSnapComposer(){const m=$('#snapComposer');if(m)m.classList.add('hidden');if(snapBlobUrl){URL.revokeObjectURL(snapBlobUrl);snapBlobUrl=null}}
+$('#snapClose')?.addEventListener('click',closeSnapComposer);
+$('#snapComposer')?.addEventListener('click',e=>{if(e.target.id==='snapComposer')closeSnapComposer()});
+$('#snapComposer')?.querySelectorAll('[data-snap-time]').forEach(b=>b.addEventListener('click',()=>{snapDuration=b.dataset.snapTime;$('#snapComposer').querySelectorAll('[data-snap-time]').forEach(x=>x.classList.remove('active'));b.classList.add('active')}));
+$('#snapSave')?.addEventListener('click',()=>{if(!snapBlobUrl)return;const a=document.createElement('a');a.href=snapBlobUrl;a.download='nexa-snap.jpg';a.click();toast('Snap saved')});
+$('#snapStory')?.addEventListener('click',()=>{localStorage.setItem('nexaLatestStory',JSON.stringify({src:snapBlobUrl,caption:$('#snapCaption').value.trim(),created:Date.now(),expires:Date.now()+86400000}));closeSnapComposer();setView('stories');toast('Added to Story')});
+$('#snapSend')?.addEventListener('click',()=>{const caption=$('#snapCaption').value.trim();chatData[activeChat]=[...chatMessages(),{from:'me',text:caption||'📸 Snap',snap:true,duration:snapDuration,created:Date.now()}];saveChats();updateSnapScore();closeSnapComposer();setView('chat');renderMessages();toast('Snap sent to '+chatPeople.find(p=>p.id===activeChat)?.name)});
+
+const originalLoadPhoto=loadPhoto;
+loadPhoto=function(file){originalLoadPhoto(file);if(file&&file.name==='nexa-snap.jpg'){setTimeout(()=>{openSnapComposer(file)},80)}};
