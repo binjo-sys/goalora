@@ -122,3 +122,19 @@ $('#homeSettings')?.addEventListener('click',()=>toast('NEXA settings coming nex
 function openPanel(type){const p=$('#socialPanel');if(!p)return;homePanel=type;p.classList.remove('hidden-panel');$('#panelTitle').textContent=type==='chat'?'Chat':type==='discover'?'Discover':'Stories';const box=$('#panelContent');if(type==='chat'){renderThreads();box.innerHTML='<div class="panel-chat-list" id="homeThreads"></div>';const src=$('#chatThreads');if(src)$('#homeThreads').innerHTML=src.innerHTML;$$('#homeThreads .chat-thread').forEach(b=>b.addEventListener('click',()=>{setView('chat');openChat(b.dataset.chat)}))}else if(type==='stories'){box.innerHTML='<div class="panel-hero"><b>Your Stories</b><span>Share moments that disappear after 24 hours.</span><button class="primary" id="homeStoryBtn">＋ Create Story</button></div>'}else{box.innerHTML='<div class="panel-hero"><b>Discover NEXA</b><span>Creators, moments and ideas from the NEXA community.</span><div class="discover-mini-grid"><div>✦ Spotlight</div><div>◉ Creators</div><div>⌁ Trending</div></div></div>'}}
 $$('.panel-back').forEach(b=>b.addEventListener('click',()=>$('#socialPanel')?.classList.add('hidden-panel')));
 startHomeCamera();
+
+/* NEXA GESTURE NAVIGATION */
+(()=>{
+ const shell=$('#nexaAppShell'), home=$('#cameraHome'), panel=$('#socialPanel'); if(!shell||!home||!panel)return;
+ let sx=0,sy=0,st=0;
+ function show(type){
+   if(type==='camera'){panel.classList.add('hidden-panel');home.style.transform='translateX(0)';return}
+   openPanel(type); home.style.transform=type==='chat'?'translateX(-18%)':'translateX(18%)';
+ }
+ shell.addEventListener('touchstart',e=>{const t=e.changedTouches[0];sx=t.clientX;sy=t.clientY;st=Date.now()},{passive:true});
+ shell.addEventListener('touchend',e=>{const t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;if(Date.now()-st>650||Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*1.25)return;if(dx<0)show('chat');else show('discover')},{passive:true});
+ let md=false,mx=0;
+ shell.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'){md=true;mx=e.clientX}});
+ shell.addEventListener('pointerup',e=>{if(!md)return;md=false;const dx=e.clientX-mx;if(Math.abs(dx)>110)show(dx<0?'chat':'discover')});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')show('camera')});
+})();
