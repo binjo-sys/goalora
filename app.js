@@ -74,3 +74,12 @@ function openChat(id){activeChat=id;const p=chatPeople.find(x=>x.id===id);$('#ch
 function renderMessages(){const box=$('#chatMessages');if(!box)return;box.innerHTML=chatMessages().map(m=>'<div class="bubble-row '+m.from+'"><div class="bubble">'+m.text+'</div></div>').join('');box.scrollTop=box.scrollHeight}
 function sendChat(){const input=$('#chatInput'),text=input.value.trim();if(!text)return;chatData[activeChat]=[...chatMessages(),{from:'me',text}];saveChats();input.value='';renderMessages();setTimeout(()=>{chatData[activeChat]=[...chatMessages(),{from:'them',text:'Seen ✓'}];saveChats();renderMessages()},700)}
 $('#sendChat')?.addEventListener('click',sendChat);$('#chatInput')?.addEventListener('keydown',e=>{if(e.key==='Enter')sendChat()});$('#chatSearch')?.addEventListener('input',e=>renderThreads(e.target.value));$('#newChatBtn')?.addEventListener('click',()=>toast('New chat — choose someone from your contacts'));$('#attachChat')?.addEventListener('click',()=>toast('Media picker ready for the next connection layer'));$('#voiceCall')?.addEventListener('click',()=>toast('Voice calling UI ready'));$('#videoCall')?.addEventListener('click',()=>toast('Video calling UI ready'));$('#chatBack')?.addEventListener('click',()=>document.querySelector('.chat-list')?.classList.remove('mobile-hidden'));renderThreads();renderMessages();
+
+/* NEXA PROFILE + SOCIAL POLISH */
+const profileName=$('#profileName');
+const savedProfile=localStorage.getItem('nexaProfileName');
+if(savedProfile&&profileName)profileName.textContent=savedProfile;
+$('#editProfileBtn')?.addEventListener('click',()=>{const current=profileName?.textContent||'Nexa Creator';const name=prompt('Your NEXA display name',current);if(name?.trim()){profileName.textContent=name.trim();localStorage.setItem('nexaProfileName',name.trim());toast('Profile updated')}});
+
+function updateSnapScore(){const score=Object.values(chatData||{}).reduce((n,a)=>n+a.filter(x=>x.from==='me').length,0);const el=$('#snapScore');if(el)el.textContent=score}
+updateSnapScore();
