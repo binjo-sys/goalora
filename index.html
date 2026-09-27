@@ -13,8 +13,8 @@
   <button class="capture-launch" id="captureLaunch">● Capture</button><div class="mode-switch"><button class="mode active" data-mode="photo">PHOTO</button><button class="mode" data-mode="video">VIDEO</button></div>
   <div class="top-actions"><button class="ghost" id="themeBtn">☾</button><button class="avatar">N</button></div>
 </header>
-<main>
-<section id="photoWorkspace" class="workspace">
+<div class="studio-nav"><button class="nav-item active" data-view="editor">✦ Create</button><button class="nav-item" data-view="stories">◉ Stories</button><button class="nav-item" data-view="profile">N Me</button></div><main>
+<section id="storiesView" class="special-view hidden"><div class="special-head"><div><span class="eyebrow">STORY STUDIO</span><h1>Tell it in moments.</h1><p>Build a visual story from your own photos. Everything stays local.</p></div><button class="primary" id="storyAdd">＋ Add moments</button><input id="storyInput" type="file" accept="image/*" multiple hidden></div><div class="story-layout"><div class="story-preview" id="storyPreview"><div class="story-empty"><div>✦</div><h2>Your story starts here.</h2><p>Add 2–8 photos and turn them into a sequence.</p></div></div><aside class="story-panel"><div class="panel-head"><b>Story controls</b><span>LOCAL</span></div><div class="control"><label>Slide duration <output id="storyDurationOut">3s</output></label><input id="storyDuration" type="range" min="1" max="8" value="3"></div><div class="control"><label>Story title</label><input class="text-input" id="storyTitle" maxlength="32" placeholder="A day worth remembering"></div><div class="story-actions"><button class="secondary" id="storyPrev">← Previous</button><button class="secondary" id="storyNext">Next →</button><button class="primary" id="storyExport">Export story</button></div><p class="hint">Export creates a set of numbered story images with your title. Use them anywhere.</p></aside></div></section><section id="photoWorkspace" class="workspace">
   <aside class="tools">
     <button class="tool active" data-tool="adjust">◐<span>Adjust</span></button>
     <button class="tool" data-tool="filter">✧<span>Filters</span></button>
