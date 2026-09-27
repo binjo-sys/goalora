@@ -29,3 +29,40 @@
 /* FINAL CAMERA-FIRST CLEANUP */
 body{overflow:hidden}.studio>.topbar{display:none!important}.nexa-app-shell{z-index:999;inset:0;height:100dvh;width:100vw}.camera-home{height:100dvh;width:100vw}.camera-bg,.camera-bg video{height:100dvh;width:100vw}.camera-topbar{top:max(14px,env(safe-area-inset-top));left:14px;right:14px}.home-lens-row{top:calc(max(14px,env(safe-area-inset-top)) + 58px)}.camera-bottom{bottom:max(22px,env(safe-area-inset-bottom));padding-bottom:8px}.story-rail{top:calc(max(14px,env(safe-area-inset-top)) + 112px);left:12px;right:12px}.camera-mode-label{bottom:-22px}.round-glass{width:44px;height:44px}.camera-topbar .story-launch{right:54px}.camera-bg video{background:#101219}.camera-vignette{background:linear-gradient(180deg,rgba(0,0,0,.38),transparent 24%,transparent 62%,rgba(0,0,0,.58))}.gesture-panel{height:100dvh;box-sizing:border-box;padding-top:max(18px,env(safe-area-inset-top))}.story-viewer{height:100dvh;box-sizing:border-box;padding-top:max(18px,env(safe-area-inset-top));padding-bottom:max(18px,env(safe-area-inset-bottom))}
 @media(max-width:700px){.home-lens-row{max-width:calc(100vw - 28px);overflow-x:auto;scrollbar-width:none}.home-lens-row::-webkit-scrollbar{display:none}.lens-pill{padding:8px 11px}.camera-bottom{gap:20px}.camera-side .round-glass{width:42px;height:42px}.capture-orbit{width:72px;height:72px}.story-rail{gap:10px}.story-circle,.story-add{flex-basis:56px}.story-circle span,.story-add span{width:52px;height:52px}.camera-status{font-size:9px}}
+
+/* NEXA MOBILE PORTRAIT RECOMPOSITION */
+@media (max-width:700px){
+  body{margin:0;overflow:hidden}
+  .nexa-app-shell{position:fixed;inset:0;overflow:hidden;background:#000}
+  .camera-home{inset:0;width:100%;height:100%;display:block}
+  .camera-bg{inset:0;overflow:hidden;background:#08090d}
+  .camera-bg video{inset:0;width:100%;height:100%;object-fit:cover}
+  .camera-vignette{z-index:1}
+  .camera-topbar{top:calc(env(safe-area-inset-top) + 12px);left:14px;right:14px;height:44px;z-index:20}
+  .camera-topbar .round-glass{width:40px;height:40px}
+  .camera-status{position:absolute;left:50%;transform:translateX(-50%);top:13px;white-space:nowrap;font-size:9px}
+  .camera-topbar .story-launch{right:48px;position:absolute}
+  .camera-topbar #homeSettings{position:absolute;right:0}
+  .home-lens-row{top:auto;bottom:158px;left:50%;transform:translateX(-50%);width:max-content;max-width:calc(100vw - 28px);z-index:20}
+  .lens-pill{padding:7px 12px;background:rgba(0,0,0,.38);font-size:8px}
+  .story-rail{top:calc(env(safe-area-inset-top) + 66px);bottom:auto;height:74px;left:14px;right:14px;align-items:flex-start;z-index:18}
+  .story-circle,.story-add{flex:0 0 52px}
+  .story-circle span,.story-add span{width:48px;height:48px}
+  .story-circle small,.story-add small{font-size:7px}
+  .camera-bottom{left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 28px);height:82px;padding:0 24px;display:grid;grid-template-columns:1fr 86px 1fr;align-items:center;gap:10px;z-index:25}
+  .camera-side{justify-self:center}
+  .capture-orbit{grid-column:2;grid-row:1;width:76px;height:76px;box-sizing:border-box}
+  .camera-bottom .camera-side:first-child{grid-column:1;grid-row:1}
+  .camera-bottom .camera-side:nth-child(3){grid-column:3;grid-row:1}
+  .camera-mode-label{left:50%;transform:translateX(-50%);bottom:-23px;font-size:7px;white-space:nowrap}
+  .camera-lens-label{position:absolute;z-index:15;left:50%;transform:translateX(-50%);bottom:130px;white-space:nowrap;font-size:8px;letter-spacing:1.2px;color:rgba(255,255,255,.72)}
+  .gesture-panel{z-index:100;padding:calc(env(safe-area-inset-top) + 12px) 14px calc(env(safe-area-inset-bottom) + 14px)}
+  .panel-head{padding:4px 0 16px}
+}
+@media (max-width:380px){
+ .camera-topbar{left:10px;right:10px}
+ .home-lens-row{bottom:150px}
+ .camera-bottom{padding:0 12px;grid-template-columns:1fr 78px 1fr}
+ .capture-orbit{width:70px;height:70px}
+ .story-rail{left:10px;right:10px}
+}
