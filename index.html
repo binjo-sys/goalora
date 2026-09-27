@@ -10,7 +10,7 @@
 <div class="studio">
 <header class="topbar">
   <button class="brand" id="homeBtn"><span class="logo">✦</span><span>NEXA<small>STUDIO</small></span></button>
-  <div class="mode-switch"><button class="mode active" data-mode="photo">PHOTO</button><button class="mode" data-mode="video">VIDEO</button></div>
+  <button class="capture-launch" id="captureLaunch">● Capture</button><div class="mode-switch"><button class="mode active" data-mode="photo">PHOTO</button><button class="mode" data-mode="video">VIDEO</button></div>
   <div class="top-actions"><button class="ghost" id="themeBtn">☾</button><button class="avatar">N</button></div>
 </header>
 <main>
@@ -50,6 +50,6 @@
 </main>
 <footer><span>✦ NEXA STUDIO</span><span>Everything you create stays on your device.</span></footer>
 </div>
-<div id="toast" class="toast"></div>
+<div id="cameraModal" class="camera-modal hidden"><div class="camera-card"><div class="camera-head"><div><span class="eyebrow">NEXA CAPTURE</span><h2>Capture the moment.</h2></div><button class="ghost" id="closeCamera">×</button></div><div class="camera-view"><video id="cameraPreview" autoplay playsinline muted></video><div class="camera-guide"></div><div class="camera-status" id="cameraStatus">Camera ready</div></div><div class="camera-controls"><button class="camera-small" id="cameraFlip">↔</button><button class="shutter" id="cameraShutter"><span></span></button><button class="camera-small" id="cameraRecord">●</button></div><p class="hint">Photos and videos are processed locally on your device.</p></div></div><div id="toast" class="toast"></div>
 <script src="app.js"></script><script>if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});</script>
 </body></html>
