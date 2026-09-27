@@ -20,3 +20,6 @@
 /* Hide legacy Nexa workspace while the new camera-first shell is active */
 #legacyViews{display:none!important}
 #legacyViews *{display:none!important}
+
+.story-viewer{position:fixed;inset:0;z-index:1100;background:#05060a;display:flex;flex-direction:column;padding:18px;overflow:hidden}.story-viewer.hidden{display:none}.story-progress{height:3px;background:rgba(255,255,255,.2);border-radius:9px;overflow:hidden;position:absolute;top:10px;left:18px;right:18px;z-index:3}.story-progress i{display:block;height:100%;width:0;background:#fff}.story-view-top{display:flex;align-items:center;gap:12px;position:relative;z-index:2}.story-view-top>div:nth-child(2){flex:1;display:grid;gap:2px}.story-view-top b{font-size:12px;color:#fff}.story-view-top small{font-size:9px;color:rgba(255,255,255,.55)}.story-stage{position:absolute;inset:0;display:grid;place-items:center}.story-stage img{width:100%;height:100%;object-fit:contain}.story-view-actions{position:absolute;bottom:24px;left:18px;right:18px;display:flex;gap:8px;z-index:3}.story-view-actions button{border:1px solid rgba(255,255,255,.15);background:rgba(8,9,14,.5);backdrop-filter:blur(16px);color:#fff;border-radius:18px;padding:12px 18px}.story-view-actions button:nth-child(1){flex:1;text-align:left}
+@keyframes storyProgress{from{width:0}to{width:100%}}
