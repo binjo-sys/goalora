@@ -16,3 +16,7 @@
 /* NEXA GESTURE MOTION */
 #cameraHome{transition:transform .34s cubic-bezier(.22,.8,.22,1)}.gesture-panel{will-change:transform}.gesture-panel:before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(184,255,85,.025),transparent 30%,transparent 70%,rgba(124,92,255,.025))}
 @media(max-width:700px){#nexaAppShell{touch-action:pan-y}.camera-bg video{transform:scale(1.01)}}
+
+/* Hide legacy Nexa workspace while the new camera-first shell is active */
+#legacyViews{display:none!important}
+#legacyViews *{display:none!important}
