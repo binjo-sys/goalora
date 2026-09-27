@@ -1,6 +1,55 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b1220"><meta name="description" content="Nexa — a modern business command center for small businesses."><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="styles.css"><title>Nexa — Business Command Center</title></head>
-<body><div class="app-shell"><aside class="sidebar"><div class="brand"><div class="brand-mark">N</div><div><strong>NEXA</strong><span>Online Business</span></div></div><nav>
-<button class="nav active" data-view="overview">⌂ <span>Overview</span></button><button class="nav" data-view="storefront">◈ <span>Shop</span></button><button class="nav" data-view="orders">▤ <span>Orders</span></button><button class="nav" data-view="inventory">▦ <span>Inventory</span></button><button class="nav" data-view="customers">◉ <span>Customers</span></button><button class="nav" data-view="expenses">↘ <span>Expenses</span></button><button class="nav" data-view="invoices">▤ <span>Invoices</span></button></nav>
-<div class="side-card"><small>BUSINESS HEALTH</small><div class="health"><i></i><b>Good</b></div><p>Keep your cash flow and stock moving.</p></div><button class="nav" data-view="settings">⚙ <span>Settings</span></button></aside>
-<main class="main"><header class="topbar"><div><div class="eyebrow" id="eyebrow">COMMAND CENTER</div><h1 id="pageTitle">Good evening, Emmanuel.</h1></div><div class="top-actions"><button class="icon-btn" id="themeBtn">☼</button><button class="profile">EL</button></div></header><section id="content"></section></main></div><div class="toast" id="toast"></div><script src="app.js"></script><script>if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{})}</script></body></html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090a0f"><meta name="description" content="Nexa Studio — capture, remix and create.">
+<link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="styles.css">
+<title>Nexa Studio — Create. Remix. Share.</title>
+</head>
+<body>
+<div class="studio">
+<header class="topbar">
+  <button class="brand" id="homeBtn"><span class="logo">✦</span><span>NEXA<small>STUDIO</small></span></button>
+  <div class="mode-switch"><button class="mode active" data-mode="photo">PHOTO</button><button class="mode" data-mode="video">VIDEO</button></div>
+  <div class="top-actions"><button class="ghost" id="themeBtn">☾</button><button class="avatar">N</button></div>
+</header>
+<main>
+<section id="photoWorkspace" class="workspace">
+  <aside class="tools">
+    <button class="tool active" data-tool="adjust">◐<span>Adjust</span></button>
+    <button class="tool" data-tool="filter">✧<span>Filters</span></button>
+    <button class="tool" data-tool="text">T<span>Text</span></button>
+    <button class="tool" data-tool="draw">⌁<span>Draw</span></button>
+    <button class="tool" data-tool="mood">☼<span>Mood</span></button>
+    <button class="tool" data-tool="remix">✦<span>Remix</span></button>
+  </aside>
+  <section class="canvas-zone">
+    <div class="canvas-top"><div><span class="eyebrow">CREATIVE CAMERA</span><h1 id="photoTitle">Create something.</h1></div><button class="upload-btn" id="photoUploadBtn">＋ Add photo</button><input id="photoInput" type="file" accept="image/*" hidden></div>
+    <div class="canvas-wrap" id="canvasWrap"><div class="drop-state" id="photoDrop"><div class="drop-icon">✦</div><h2>Drop a photo here</h2><p>or choose one from your device</p><button class="primary" id="choosePhoto">Choose photo</button></div><canvas id="photoCanvas"></canvas></div>
+    <div class="bottom-bar"><button class="secondary" id="undoBtn">↶ Undo</button><button class="secondary" id="redoBtn">↷ Redo</button><button class="secondary" id="resetBtn">Reset</button><div class="spacer"></div><button class="primary" id="downloadPhoto">Export photo ↓</button></div>
+  </section>
+  <aside class="panel" id="photoPanel"><div class="panel-head"><b id="toolTitle">Adjust</b><span>PHOTO</span></div><div id="toolContent"></div></aside>
+</section>
+
+<section id="videoWorkspace" class="workspace hidden">
+  <aside class="tools">
+    <button class="tool active" data-vtool="trim">◒<span>Trim</span></button>
+    <button class="tool" data-vtool="speed">↯<span>Speed</span></button>
+    <button class="tool" data-vtool="filter">✧<span>Looks</span></button>
+    <button class="tool" data-vtool="text">T<span>Text</span></button>
+    <button class="tool" data-vtool="audio">♫<span>Sound</span></button>
+  </aside>
+  <section class="canvas-zone">
+    <div class="canvas-top"><div><span class="eyebrow">MOTION STUDIO</span><h1>Make it move.</h1></div><button class="upload-btn" id="videoUploadBtn">＋ Add video</button><input id="videoInput" type="file" accept="video/*" hidden></div>
+    <div class="video-wrap" id="videoWrap"><div class="drop-state" id="videoDrop"><div class="drop-icon">▶</div><h2>Drop a video here</h2><p>Trim it, style it, make it yours.</p><button class="primary" id="chooseVideo">Choose video</button></div><video id="video" playsinline></video><div class="video-overlay" id="videoText"></div></div>
+    <div class="timeline"><div class="time-head"><span id="currentTime">00:00</span><span id="duration">00:00</span></div><input id="scrubber" type="range" min="0" max="100" value="0"><div class="trim-range"><label>Start <input id="startTime" type="number" min="0" step=".1" value="0"></label><label>End <input id="endTime" type="number" min="0" step=".1" value="0"></label></div></div>
+    <div class="bottom-bar"><button class="secondary" id="playBtn">▶ Play</button><div class="spacer"></div><button class="primary" id="exportVideo">Export WebM ↓</button></div>
+  </section>
+  <aside class="panel" id="videoPanel"><div class="panel-head"><b id="vtoolTitle">Trim</b><span>VIDEO</span></div><div id="vtoolContent"></div></aside>
+</section>
+</main>
+<footer><span>✦ NEXA STUDIO</span><span>Everything you create stays on your device.</span></footer>
+</div>
+<div id="toast" class="toast"></div>
+<script src="app.js"></script><script>if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});</script>
+</body></html>
