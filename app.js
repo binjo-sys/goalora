@@ -138,3 +138,18 @@ startHomeCamera();
  shell.addEventListener('pointerup',e=>{if(!md)return;md=false;const dx=e.clientX-mx;if(Math.abs(dx)>110)show(dx<0?'chat':'discover')});
  document.addEventListener('keydown',e=>{if(e.key==='Escape')show('camera')});
 })();
+
+/* NEXA STORIES 2.0 */
+(()=>{
+ const viewer=$('#storyViewer'),img=$('#storyViewerImage'),name=$('#storyViewerName'),meta=$('#storyViewerMeta'),bar=$('.story-progress i');
+ let timer=null,liked=false;
+ function showStory(src,n='Your Story',m='Just now'){if(!viewer||!img)return;img.src=src;name.textContent=n;meta.textContent=m;liked=false;$('#storyReact').textContent='♡';viewer.classList.remove('hidden');bar.style.animation='none';void bar.offsetWidth;bar.style.animation='storyProgress 5s linear forwards';clearTimeout(timer);timer=setTimeout(closeStory,5000)}
+ function closeStory(){viewer?.classList.add('hidden');clearTimeout(timer)}
+ $('#storyViewerClose')?.addEventListener('click',closeStory);
+ $('#storyReact')?.addEventListener('click',()=>{liked=!liked;$('#storyReact').textContent=liked?'♥':'♡'});
+ $('#storyReply')?.addEventListener('click',()=>{closeStory();setView('chat');toast('Story reply ready')});
+ $('#storyShare')?.addEventListener('click',()=>toast('Story sharing ready'));
+ window.nexaShowStory=showStory;
+ const latest=localStorage.getItem('nexaLatestStory');
+ if(latest){try{const x=JSON.parse(latest);if(x.expires>Date.now())window.nexaLatestStory=x;else localStorage.removeItem('nexaLatestStory')}catch{}}
+})();
