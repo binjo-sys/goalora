@@ -107,3 +107,18 @@ $('#snapSend')?.addEventListener('click',()=>{const caption=$('#snapCaption').va
 
 const originalLoadPhoto=loadPhoto;
 loadPhoto=function(file){originalLoadPhoto(file);if(file&&file.name==='nexa-snap.jpg'){setTimeout(()=>{openSnapComposer(file)},80)}};
+
+/* NEXA CAMERA-FIRST SHELL */
+let homeStream=null,homeLens='none',homePanel=null;
+const homeVideo=$('#homeCameraPreview');
+async function startHomeCamera(){if(!homeVideo||homeStream)return;try{homeStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false});homeVideo.srcObject=homeStream}catch(e){toast('Camera permission needed')}}
+function setHomeLens(l){homeLens=l;const map={none:'none',mono:'grayscale(1)',warm:'sepia(.2) saturate(1.15)',vivid:'saturate(1.5) contrast(1.08)'};homeVideo.style.filter=map[l]||'none';$('#homeLensLabel').textContent='NEXA · '+l.toUpperCase();$$('.lens-pill').forEach(b=>b.classList.toggle('active',b.dataset.homeLens===l))}
+$$('.lens-pill').forEach(b=>b.addEventListener('click',()=>setHomeLens(b.dataset.homeLens)));
+$('#homeFlip')?.addEventListener('click',async()=>{if(!homeStream)return;homeStream.getTracks().forEach(t=>t.stop());homeStream=null;const facing=homeVideo.dataset.facing==='environment'?'user':'environment';homeVideo.dataset.facing=facing;try{homeStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:facing},audio:false});homeVideo.srcObject=homeStream}catch(e){toast('Camera unavailable')}});
+$('#homeCapture')?.addEventListener('click',()=>{$('#captureLaunch')?.click()});
+$('#homeGallery')?.addEventListener('click',()=>$('#photoInput')?.click());
+$('#homeProfile')?.addEventListener('click',()=>setView('profile'));
+$('#homeSettings')?.addEventListener('click',()=>toast('NEXA settings coming next'));
+function openPanel(type){const p=$('#socialPanel');if(!p)return;homePanel=type;p.classList.remove('hidden-panel');$('#panelTitle').textContent=type==='chat'?'Chat':type==='discover'?'Discover':'Stories';const box=$('#panelContent');if(type==='chat'){renderThreads();box.innerHTML='<div class="panel-chat-list" id="homeThreads"></div>';const src=$('#chatThreads');if(src)$('#homeThreads').innerHTML=src.innerHTML;$$('#homeThreads .chat-thread').forEach(b=>b.addEventListener('click',()=>{setView('chat');openChat(b.dataset.chat)}))}else if(type==='stories'){box.innerHTML='<div class="panel-hero"><b>Your Stories</b><span>Share moments that disappear after 24 hours.</span><button class="primary" id="homeStoryBtn">＋ Create Story</button></div>'}else{box.innerHTML='<div class="panel-hero"><b>Discover NEXA</b><span>Creators, moments and ideas from the NEXA community.</span><div class="discover-mini-grid"><div>✦ Spotlight</div><div>◉ Creators</div><div>⌁ Trending</div></div></div>'}}
+$$('.panel-back').forEach(b=>b.addEventListener('click',()=>$('#socialPanel')?.classList.add('hidden-panel')));
+startHomeCamera();
