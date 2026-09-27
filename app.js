@@ -162,3 +162,10 @@ startHomeCamera();
  $$('.story-circle').forEach((b,i)=>{b.querySelector('span').style.background=colors[i%colors.length];b.addEventListener('click',()=>{const id=b.dataset.story;const p=chatPeople.find(x=>x.id===id);const latest=window.nexaLatestStory;if(latest)nexaShowStory(latest.src,p?.name||b.textContent.trim(),'Today');else{const c=document.createElement('canvas');c.width=900;c.height=1600;const x=c.getContext('2d');x.fillStyle=['#11131a','#17122a','#0f1a18','#1a1115'][i];x.fillRect(0,0,c.width,c.height);x.fillStyle='#fff';x.font='700 58px Space Grotesk';x.fillText(p?.name||'NEXA',70,180);x.font='34px DM Sans';x.fillText('A moment shared on NEXA.',70,250);nexaShowStory(c.toDataURL(),p?.name||'NEXA','Today')}})});
  $('#storyAddHome')?.addEventListener('click',()=>{$('#captureLaunch')?.click()});
 })();
+
+/* MOBILE CAMERA DEFAULTS */
+if(window.innerWidth<=700){
+  const rail=$('#storyRail');
+  const homeStories=$('#homeStories');
+  if(rail&&homeStories) rail.classList.remove('open');
+}
