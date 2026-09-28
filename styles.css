@@ -66,3 +66,17 @@ body{overflow:hidden}.studio>.topbar{display:none!important}.nexa-app-shell{z-in
  .capture-orbit{width:70px;height:70px}
  .story-rail{left:10px;right:10px}
 }
+
+/* NEXA PORTRAIT SOCIAL REBUILD */
+.mobile-chat-home{max-width:680px;margin:auto}.mobile-chat-search{height:44px;border:1px solid rgba(255,255,255,.1);background:#11131a;border-radius:14px;color:#858b9c;display:flex;align-items:center;gap:8px;padding:0 14px;font-size:12px;margin-bottom:10px}.mobile-chat-list{display:grid;gap:3px}.mobile-thread{width:100%;border:0;background:transparent;color:#fff;display:flex;align-items:center;gap:12px;padding:13px 8px;border-radius:15px;text-align:left}.mobile-thread:active,.mobile-thread:hover{background:#151820}.mobile-thread-avatar{width:48px;height:48px;flex:none;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#202532,#11131a);border:1px solid #343949;color:#b8ff55;font:700 15px "Space Grotesk"}.mobile-thread-copy{min-width:0;flex:1;display:grid;gap:4px}.mobile-thread-copy b{font-size:13px}.mobile-thread-copy small{font-size:10px;color:#858b9c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mobile-thread time{font-size:9px;color:#858b9c}.nexa-mobile-chat{height:calc(100dvh - 34px);max-width:680px;margin:auto;display:flex;flex-direction:column}.mobile-chat-head{display:flex;align-items:center;gap:10px;padding:4px 0 14px;border-bottom:1px solid #272b37}.mobile-chat-person{flex:1;display:grid;gap:3px}.mobile-chat-person b{font-size:14px}.mobile-chat-person span{font-size:9px;color:#b8ff55}.mobile-chat-messages{flex:1;overflow:auto;padding:18px 2px}.mobile-bubble-row{display:flex;margin:7px 0}.mobile-bubble-row.me{justify-content:flex-end}.mobile-bubble{max-width:78%;padding:11px 13px;border-radius:17px;background:#181b24;border:1px solid #272b37;font-size:11px;line-height:1.45}.mobile-bubble-row.me .mobile-bubble{background:#b8ff55;color:#090a0f;border-color:#b8ff55;border-bottom-right-radius:5px}.mobile-bubble-row.them .mobile-bubble{border-bottom-left-radius:5px}.mobile-chat-compose{display:flex;gap:7px;align-items:center;padding:10px 0 max(8px,env(safe-area-inset-bottom));border-top:1px solid #272b37}.mobile-chat-input{flex:1;min-width:0;height:42px;border:1px solid #272b37;background:#11131a;color:#fff;border-radius:21px;padding:0 15px;outline:none}.mobile-chat-send{width:42px;height:42px;border:0;border-radius:50%;background:#b8ff55;color:#090a0f;font-weight:900}.mobile-chat-compose .round-glass{width:42px;height:42px;flex:none}
+@media(max-width:700px){
+ .gesture-panel{padding-left:14px;padding-right:14px}
+ .panel-head{max-width:none}
+ .panel-head h2{font-size:21px}
+ .camera-status{letter-spacing:1.6px}
+ .camera-mode-label{display:none}
+ .camera-lens-label{display:none}
+ .home-lens-row{bottom:145px}
+ .camera-bottom{bottom:calc(env(safe-area-inset-bottom) + 20px);height:78px}
+ .capture-orbit{width:74px;height:74px}
+}
