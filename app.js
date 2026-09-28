@@ -169,3 +169,53 @@ if(window.innerWidth<=700){
   const homeStories=$('#homeStories');
   if(rail&&homeStories) rail.classList.remove('open');
 }
+
+/* NEXA MOBILE SOCIAL + DIRECT CAPTURE */
+(()=>{
+  const panel=$('#socialPanel');
+  if(!panel)return;
+  function renderMobileChat(personId){
+    const p=chatPeople.find(x=>x.id===personId)||chatPeople[0];
+    activeChat=p.id;
+    const messages=chatMessages();
+    $('#panelTitle').textContent=p.name;
+    const box=$('#panelContent');
+    box.innerHTML='<div class="nexa-mobile-chat"><div class="mobile-chat-head"><button class="round-glass" id="mobileChatBack">‹</button><div class="mobile-chat-person"><b>'+p.name+'</b><span>'+p.status+'</span></div><button class="round-glass">⋮</button></div><div class="mobile-chat-messages" id="mobileChatMessages"></div><div class="mobile-chat-compose"><button class="round-glass" id="mobileChatAttach">＋</button><input class="mobile-chat-input" id="mobileChatInput" placeholder="Message…"><button class="mobile-chat-send" id="mobileChatSend">➤</button></div></div>';
+    const list=$('#mobileChatMessages');
+    messages.forEach(m=>{const row=document.createElement('div');row.className='mobile-bubble-row '+(m.from==='me'?'me':'them');const b=document.createElement('div');b.className='mobile-bubble';b.textContent=m.text||'📸 Snap';row.appendChild(b);list.appendChild(row)});
+    list.scrollTop=list.scrollHeight;
+    $('#mobileChatBack').onclick=()=>openPanel('chat');
+    const send=()=>{
+      const input=$('#mobileChatInput');const text=input.value.trim();if(!text)return;
+      chatData[activeChat]=[...chatMessages(),{from:'me',text,created:Date.now()}];saveChats();input.value='';renderMobileChat(activeChat);
+    };
+    $('#mobileChatSend').onclick=send;
+    $('#mobileChatInput').onkeydown=e=>{if(e.key==='Enter')send()};
+  }
+  window.openPanel=function(type){
+    const p=$('#socialPanel');if(!p)return;
+    homePanel=type;p.classList.remove('hidden-panel');
+    $('#panelTitle').textContent=type==='chat'?'Chat':type==='discover'?'Discover':'Stories';
+    const box=$('#panelContent');
+    if(type==='chat'){
+      box.innerHTML='<div class="mobile-chat-home"><div class="mobile-chat-search">⌕ <span>Search chats</span></div><div class="mobile-chat-list" id="mobileChatList"></div></div>';
+      const list=$('#mobileChatList');
+      chatPeople.forEach(person=>{
+        const b=document.createElement('button');b.className='mobile-thread';b.innerHTML='<span class="mobile-thread-avatar">'+person.letter+'</span><span class="mobile-thread-copy"><b>'+person.name+'</b><small>'+person.preview+'</small></span><time>'+person.time+'</time>';
+        b.onclick=()=>renderMobileChat(person.id);list.appendChild(b);
+      });
+    }else if(type==='stories'){
+      box.innerHTML='<div class="panel-hero"><b>Your Stories</b><span>Share moments that disappear after 24 hours.</span><button class="primary" id="homeStoryBtn">＋ Create Story</button></div>';
+      $('#homeStoryBtn')?.addEventListener('click',()=>$('#homeCapture')?.click());
+    }else{
+      box.innerHTML='<div class="panel-hero"><b>Discover NEXA</b><span>Creators, moments and ideas from the NEXA community.</span><div class="discover-mini-grid"><div>✦ Spotlight</div><div>◉ Creators</div><div>⌁ Trending</div></div></div>';
+    }
+  };
+  $('#homeCapture')?.addEventListener('click',()=>{
+    if(!homeVideo?.videoWidth)return $('#captureLaunch')?.click();
+    const c=document.createElement('canvas');c.width=homeVideo.videoWidth;c.height=homeVideo.videoHeight;
+    const x=c.getContext('2d');if(homeVideo.style.filter)x.filter=homeVideo.style.filter;
+    x.translate(c.width,0);x.scale(-1,1);x.drawImage(homeVideo,0,0,c.width,c.height);
+    c.toBlob(blob=>{if(blob){loadPhoto(new File([blob],'nexa-snap.jpg',{type:'image/jpeg'}))}},'image/jpeg',.94);
+  });
+})();
