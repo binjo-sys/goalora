@@ -219,3 +219,85 @@ if(window.innerWidth<=700){
     c.toBlob(blob=>{if(blob){loadPhoto(new File([blob],'nexa-snap.jpg',{type:'image/jpeg'}))}},'image/jpeg',.94);
   });
 })();
+
+/* NEXA CAMERA RELIABILITY PATCH */
+(()=>{
+  const video=$('#homeCameraPreview'), shell=$('#cameraHome');
+  if(!video||!shell)return;
+  const oldCapture=$('#homeCapture');
+  if(oldCapture){
+    const fresh=oldCapture.cloneNode(true);
+    oldCapture.replaceWith(fresh);
+  }
+  const capture=$('#homeCapture');
+  let facing='user', starting=false;
+
+  function cameraMessage(message,buttonText='Enable camera'){
+    let ui=$('#cameraPermissionCard');
+    if(!ui){
+      ui=document.createElement('div');
+      ui.id='cameraPermissionCard';
+      ui.innerHTML='<div class="camera-permission-inner"><div class="camera-permission-icon">◉</div><b id="cameraPermissionTitle">NEXA Camera</b><span id="cameraPermissionText"></span><button id="cameraPermissionBtn" class="primary">'+buttonText+'</button></div>';
+      shell.appendChild(ui);
+      $('#cameraPermissionBtn').onclick=()=>requestHomeCamera();
+    }
+    $('#cameraPermissionText').textContent=message;
+    ui.classList.remove('hidden');
+  }
+  function hideCameraMessage(){ $('#cameraPermissionCard')?.classList.add('hidden') }
+
+  async function requestHomeCamera(){
+    if(starting)return;
+    starting=true;
+    try{
+      if(!navigator.mediaDevices?.getUserMedia)throw new Error('MEDIA_UNAVAILABLE');
+      if(homeStream){homeStream.getTracks().forEach(t=>t.stop());homeStream=null}
+      const stream=await navigator.mediaDevices.getUserMedia({
+        video:{facingMode:facing,width:{ideal:1280},height:{ideal:720}},
+        audio:false
+      });
+      homeStream=stream;
+      video.srcObject=stream;
+      video.muted=true;
+      video.playsInline=true;
+      await video.play().catch(()=>{});
+      video.dataset.facing=facing;
+      hideCameraMessage();
+    }catch(e){
+      const msg=e?.name==='NotAllowedError'
+        ? 'Allow camera access in your browser settings, then tap Enable camera again.'
+        : e?.name==='NotFoundError'
+        ? 'No camera was found on this device.'
+        : e?.name==='NotReadableError'
+        ? 'The camera is busy. Close other apps using the camera and try again.'
+        : 'Camera could not start. Tap to try again.';
+      cameraMessage(msg);
+    }finally{starting=false}
+  }
+
+  window.nexaRequestCamera=requestHomeCamera;
+  capture.onclick=()=>{
+    if(!homeStream){requestHomeCamera();return}
+    if(!video.videoWidth){toast('Camera is still starting…');return}
+    const c=document.createElement('canvas');
+    c.width=video.videoWidth;c.height=video.videoHeight;
+    const x=c.getContext('2d');
+    x.save();
+    if(facing==='user'){x.translate(c.width,0);x.scale(-1,1)}
+    x.filter=getComputedStyle(video).filter||'none';
+    x.drawImage(video,0,0,c.width,c.height);
+    x.restore();
+    c.toBlob(blob=>{
+      if(blob)loadPhoto(new File([blob],'nexa-snap.jpg',{type:'image/jpeg'}));
+    },'image/jpeg',.94);
+  };
+
+  $('#homeFlip')?.addEventListener('click',async e=>{
+    e.stopImmediatePropagation();
+    facing=facing==='user'?'environment':'user';
+    await requestHomeCamera();
+  });
+
+  cameraMessage('Tap once to give NEXA permission to use your camera.');
+  requestHomeCamera();
+})();
