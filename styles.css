@@ -80,3 +80,12 @@ body{overflow:hidden}.studio>.topbar{display:none!important}.nexa-app-shell{z-in
  .camera-bottom{bottom:calc(env(safe-area-inset-bottom) + 20px);height:78px}
  .capture-orbit{width:74px;height:74px}
 }
+
+/* CAMERA PERMISSION UI */
+#cameraPermissionCard{position:absolute;inset:0;z-index:50;display:grid;place-items:center;padding:28px;background:radial-gradient(circle at center,rgba(5,6,10,.35),rgba(5,6,10,.82));backdrop-filter:blur(3px)}
+#cameraPermissionCard.hidden{display:none}
+.camera-permission-inner{width:min(320px,calc(100vw - 42px));display:grid;justify-items:center;text-align:center;gap:10px;padding:24px;border:1px solid rgba(255,255,255,.14);border-radius:24px;background:rgba(10,11,16,.78);box-shadow:0 20px 70px rgba(0,0,0,.4)}
+.camera-permission-inner b{font:700 18px "Space Grotesk";color:#fff}
+.camera-permission-inner span{font:11px/1.5 "DM Sans";color:#aeb4c2}
+.camera-permission-icon{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:#b8ff55;color:#090a0f;font-size:24px}
+.camera-permission-inner .primary{min-height:44px;padding:0 20px}
