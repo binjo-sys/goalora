@@ -89,3 +89,26 @@ body{overflow:hidden}.studio>.topbar{display:none!important}.nexa-app-shell{z-in
 .camera-permission-inner span{font:11px/1.5 "DM Sans";color:#aeb4c2}
 .camera-permission-icon{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:#b8ff55;color:#090a0f;font-size:24px}
 .camera-permission-inner .primary{min-height:44px;padding:0 20px}
+
+/* NEXA TOUCH HOTFIX — controls must always sit above live camera */
+#nexaAppShell{pointer-events:auto!important;touch-action:manipulation!important}
+#cameraHome{pointer-events:auto!important}
+#cameraHome .camera-bg{pointer-events:none!important}
+#cameraHome .camera-bg video{pointer-events:none!important}
+#cameraHome .camera-vignette{pointer-events:none!important}
+#cameraHome .camera-topbar,
+#cameraHome .camera-topbar button,
+#cameraHome .home-lens-row,
+#cameraHome .lens-pill,
+#cameraHome .camera-bottom,
+#cameraHome .camera-bottom button,
+#cameraHome .story-rail,
+#cameraHome .story-rail button,
+#cameraPermissionCard,
+#cameraPermissionCard button{pointer-events:auto!important;touch-action:manipulation!important}
+#cameraHome .camera-topbar{z-index:500!important}
+#cameraHome .home-lens-row{z-index:500!important}
+#cameraHome .camera-bottom{z-index:500!important}
+#cameraHome .story-rail{z-index:490!important}
+#cameraPermissionCard{z-index:1000!important}
+#cameraHome button{cursor:pointer;-webkit-tap-highlight-color:transparent}
